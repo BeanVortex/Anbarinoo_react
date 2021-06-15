@@ -1,14 +1,26 @@
 import React, { Component } from 'react'
+import Cargo from './cargo/Cargo';
 
 class Home extends Component {
     render() {
+        
         return (
             <div>
-                <div className="top">
-                    
-                </div>
+                <header className="header">
+                    <div className="profit-indicator">
+                        <h3>+18 %</h3>
+                        <p>این ماه</p>
+                    </div>
+                    <div className="receive-link">
+                        <button href="#" className="selected">ارسال شده</button>
+                        <button href="#"> دریافت شده</button>
+                    </div>
+                    <div className="cargos">
+
+                    </div>
+                </header>
             </div>
-        )
+        );
     }
 }
 
