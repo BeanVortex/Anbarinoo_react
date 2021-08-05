@@ -32,7 +32,7 @@ export const redirect = (auth) => {
 };
 
 const isTokenExpired = () => {
-  let expireDate = new Date(getLocalStorage("expiration"));
+  let expireDate = new Date(getLocalStorage("refresh_expiration"));
   if (new Date().getTime() > expireDate.getTime()) {
     clearLocalStorage();
     return true;
@@ -44,7 +44,8 @@ export const clearLocalStorage = () => {
   if (isAuthenticated()) {
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
-    localStorage.removeItem("expiration");
+    localStorage.removeItem("refresh_expiration");
+    localStorage.removeItem("access_expiration");
   }
 };
 
@@ -52,5 +53,6 @@ export const getAuthLocalData = () => {
   return {
     refreshToken: localStorage.getItem("refresh_token"),
     accessToken: localStorage.getItem("access_token"),
+    refreshExpiration: localStorage.getItem("refresh_expiration"),
   };
 };

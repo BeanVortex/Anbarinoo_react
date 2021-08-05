@@ -1,4 +1,3 @@
-import { connect } from "react-redux";
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 import Home from '../components/home/Home';
@@ -9,7 +8,6 @@ import Statistics from "../components/nav/statistics/Statistics";
 class App extends Component {
 
   render() {
-    console.log(this.props);
     return (
       <div>
         <Switch>
@@ -23,6 +21,5 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = (state) => state;
 
-export default connect(mapStateToProps)(App);
+export default App;
