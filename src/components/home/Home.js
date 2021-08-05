@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Cargo from './cargo/Cargo';
+import './Home.scss';
 
 class Home extends Component {
     render() {
