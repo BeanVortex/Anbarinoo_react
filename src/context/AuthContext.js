@@ -19,6 +19,11 @@ const initialState = {
 
 export const AuthContext = createContext({
   userAuth: initialState,
+  setUserAuth: () => {},
+  login: () => {},
+  signup: () => {},
+  logout: () => {},
+  mapAuthToContext: () => {},
 });
 
 const saveHeaders = (res) => {
@@ -84,7 +89,7 @@ export default (props) => {
       });
   };
 
-  const mapAuthToState = () => {
+  const mapAuthToContext = () => {
     const payload = getAuthLocalData();
     setUserAuth({
       accessToken: payload.accessToken,
@@ -101,7 +106,7 @@ export default (props) => {
 
   return (
     <AuthContext.Provider
-      value={{ userAuth, setUserAuth, login, signup, logout, mapAuthToState }}
+      value={{ userAuth, setUserAuth, login, signup, logout, mapAuthToContext }}
     >
       {props.children}
     </AuthContext.Provider>
