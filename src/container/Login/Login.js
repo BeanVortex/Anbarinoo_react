@@ -1,7 +1,6 @@
 import React from "react";
 
-const Settings = () => {
+const Login = () => {
   return <div></div>;
 };
-
-export default Settings;
+export default Login;

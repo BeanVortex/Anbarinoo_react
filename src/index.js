@@ -3,13 +3,14 @@ import ReactDOM from "react-dom";
 import App from "./container/App";
 import { BrowserRouter } from "react-router-dom";
 import AuthProvider from "./context/AuthContext";
-
 import axios from "axios";
+
 import {
   isAuthenticated,
   requestHeader,
   setLocalStorage,
 } from "./utils/AuthUtil";
+
 axios.defaults.baseURL = "https://anbarinoo.ir";
 
 axios.interceptors.request.use(

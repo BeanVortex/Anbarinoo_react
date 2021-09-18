@@ -9,6 +9,7 @@ import { isAuthenticated } from "../utils/AuthUtil";
 
 const App = (props) => {
   const { userAuth, mapAuthToContext } = useContext(AuthContext);
+  
   useEffect(() => {
     if (!userAuth.authenticated && isAuthenticated()) mapAuthToContext();
   }, [userAuth.authenticated, mapAuthToContext]);
