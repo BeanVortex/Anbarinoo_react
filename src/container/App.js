@@ -1,15 +1,16 @@
 import React, { useEffect, useContext } from "react";
 import { Route, Switch } from "react-router-dom";
-import Home from "../components/home/Home";
-import Categories from "../components/nav/categories/Categories";
-import Settings from "../components/nav/settings/Settings";
-import Statistics from "../components/nav/statistics/Statistics";
+import Home from "./Home/Home";
+// import Categories from "../components/nav/categories/Categories";
+// import Settings from "../components/nav/settings/Settings";
+// import Statistics from "../components/nav/statistics/Statistics";
 import { AuthContext } from "../context/AuthContext";
 import { isAuthenticated } from "../utils/AuthUtil";
+import "./App.scss";
 
 const App = (props) => {
   const { userAuth, mapAuthToContext } = useContext(AuthContext);
-  
+
   useEffect(() => {
     if (!userAuth.authenticated && isAuthenticated()) mapAuthToContext();
   }, [userAuth.authenticated, mapAuthToContext]);
@@ -18,9 +19,9 @@ const App = (props) => {
     <div>
       <Switch>
         <Route path="/" component={Home} />
-        <Route path="/categories" exact component={Categories} />
+        {/* <Route path="/categories" exact component={Categories} />
         <Route path="/statistics" exact component={Settings} />
-        <Route path="/settings" exact component={Statistics} />
+        <Route path="/settings" exact component={Statistics} /> */}
       </Switch>
     </div>
   );
