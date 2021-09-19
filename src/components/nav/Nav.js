@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
+
 import "./Nav.scss";
 import profileImg from "../../resources/img/profile.jpg";
 import homeImg from "../../resources/vectors/Home.svg";
