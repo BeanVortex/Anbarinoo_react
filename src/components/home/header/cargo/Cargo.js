@@ -1,21 +1,23 @@
 import React, { Component } from "react";
-//import "./Cargo.scss";
+import "./Cargo.scss";
+import uploadImg from "../../../../resources/vectors/Upload.svg";
+import downloadImg from "../../../../resources/vectors/Download.svg";
 
 class Cargo extends Component {
   render() {
     let img = null;
-    if (this.props.sent) img = "../../../resources/vectors/Upload.svg";
-    else if (this.props.received)
-      img = "../../../resources/vectors/Download.svg";
+    if (this.props.isSent) img = uploadImg;
+    else img = downloadImg;
+
 
     return (
-      <div>
-        <div className="parent">
-          <div className="icon-box">
-            <img className="icon" src={img} alt="" />
-          </div>
-          <h5>{this.props.title}</h5>
-          <p>{this.props.date}</p>
+      <div className="parent">
+        <div className="icon-box">
+          <img className="icon" src={img} alt="" />
+        </div>
+        <div className="content">
+          <h5>{this.props.data.title}</h5>
+          <p>{this.props.data.date}</p>
         </div>
       </div>
     );
