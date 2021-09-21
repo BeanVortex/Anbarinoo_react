@@ -1,5 +1,4 @@
-@import "../../../../styles/colors.scss";
-@import "../../../../styles/fonts.scss";
+@import "../../../../styles/styles.scss";
 
 .parent {
   display: flex;
@@ -16,12 +15,12 @@
     border-radius: 15px;
     color: white;
     cursor: pointer;
-    transition: all 0.3s ease;
-    transform: scale(1);
-    box-shadow: 0.5px 0.5px 5px $thirdColor;
+
+    @include transition();
+    @include boxShadow($thirdColor);
 
     &:hover {
-      transform: scale(1.1);
+      @include scaleOnHover();
     }
     .icon {
       width: 25px;
@@ -38,7 +37,7 @@
     justify-content: space-between;
     padding: 0 0.3rem;
 
-    h4{
+    h4 {
       font-weight: 500;
       opacity: 0.9;
     }
@@ -49,4 +48,3 @@
     }
   }
 }
-

@@ -110,7 +110,7 @@ const Header = () => {
   return (
     <header className="header">
       <div className="profit-indicator">
-        <h3>+59 %</h3>
+        <h4>+59 %</h4>
         <p>این ماه</p>
       </div>
       <div className="receive-link">
