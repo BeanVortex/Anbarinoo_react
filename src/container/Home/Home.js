@@ -1,20 +1,21 @@
-import React, { Component } from 'react'
-import './Home.scss';
+import React, { Component } from "react";
+import "./Home.scss";
 
-import Nav from '../../components/nav/Nav';
-import Header from '../../components/home/header/Header';
+import Nav from "../../components/nav/Nav";
+import Header from "../../components/home/header/Header";
+import Recents from "../../components/home/recents/Recents";
 
 class Home extends Component {
-    render() {
+  render() {
+    return (
+      <div>
+        <Nav className="nav" />
+        <Header className="header" />
+        <Recents/>
         
-        return (
-            <div>
-                <Nav className="nav"/>
-                <Header/>
-                
-            </div>
-        );
-    }
+      </div>
+    );
+  }
 }
 
 export default Home;

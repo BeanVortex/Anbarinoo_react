@@ -18,7 +18,7 @@ const Nav = () => {
     <nav>
       <div className="info">
         <img src={userAuth.profile || profileImg} alt="" />
-        <h3>{userAuth.username || "demo"}</h3>
+        <h3>{userAuth.username || "علی"}</h3>
       </div>
 
       <ul>

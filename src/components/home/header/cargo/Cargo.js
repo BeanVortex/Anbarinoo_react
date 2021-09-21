@@ -16,7 +16,7 @@ class Cargo extends Component {
           <img className="icon" src={img} alt="" />
         </div>
         <div className="content">
-          <h5>{this.props.data.title}</h5>
+          <h4>{this.props.data.title}</h4>
           <p>{this.props.data.date}</p>
         </div>
       </div>
