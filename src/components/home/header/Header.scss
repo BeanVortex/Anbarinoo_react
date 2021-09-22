@@ -1,12 +1,12 @@
 @import "../../../styles/styles.scss";
 
 .header {
+  width: 100%;
   height: 220px;
   display: flex;
   align-items: center;
-  margin-right: 80px;
   direction: rtl;
-  padding: 0 3rem;
+  padding: 0 $defaultMargin;
 
   .profit-indicator {
     width: 200px;
@@ -27,7 +27,7 @@
     @include transition();
 
     cursor: pointer;
-    
+
     h4 {
       color: $profitColor;
       font-size: 3rem;
@@ -111,7 +111,7 @@
       justify-self: center;
       border-radius: 10px;
       color: white;
-      cursor: pointer;      
+      cursor: pointer;
       @include boxShadow($primaryColor);
       @include transition();
 

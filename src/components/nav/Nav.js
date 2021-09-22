@@ -15,7 +15,7 @@ const Nav = () => {
   const { userAuth } = useContext(AuthContext);
 
   return (
-    <nav>
+    <nav className="nav">
       <div className="info">
         <img src={userAuth.profile || profileImg} alt="" />
         <h3>{userAuth.username || "علی"}</h3>

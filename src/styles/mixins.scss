@@ -1,4 +1,4 @@
-@import "colors.scss";
+@import "variables.scss";
 @import "fonts.scss";
 
 @mixin boxShadow($color) {
@@ -29,4 +29,10 @@
   color: $primaryColor;
   font-size: $fontSize;
   font-family: $fontFamily;
+}
+
+
+@mixin containerWidth {
+  //for skipping nav
+  width: calc(100% - 80px);
 }

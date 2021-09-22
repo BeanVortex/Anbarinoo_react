@@ -4,14 +4,10 @@ nav {
   width: 80px;
   height: 100vh;
   background: $primaryColor;
-  position: fixed;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
-  right: 0;
-  top: 0;
-  bottom: 0;
   padding: 0.5rem;
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
