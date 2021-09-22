@@ -1,1 +1,97 @@
 @import "../../../../styles/styles.scss";
+
+.product {
+  width: 300px;
+  background: white;
+  margin: 1rem;
+  padding: 0.5rem;
+  @include borderRadius();
+  @include boxShadow($spread: 10px);
+
+  .img {
+    width: 100%;
+    // height: 200px;
+    @include borderRadius();
+    overflow: hidden;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      overflow: hidden;
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    &-title {
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin: 1rem 0;
+
+      h4 {
+        font-size: 1.1rem;
+        color: $primaryColor;
+      }
+      .colors {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .color-div {
+          width: 14px;
+          height: 14px;
+          margin: 0 0.1rem;
+          @include borderRadius(50%);
+        }
+      }
+    }
+
+    &-body {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: center;
+
+      p {
+        margin: 0.3rem 0;
+      }
+
+      &-stock,
+      &-buy-price {
+        opacity: 0.6;
+      }
+
+      &-sell-price {
+        opacity: 0.9;
+        span {
+          color: green;
+        }
+      }
+    }
+
+    &-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 1rem 0;
+      button {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+        font-weight: 800;
+        background: $thirdColor;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        color: white;
+        @include borderRadius();
+      }
+    }
+  }
+}

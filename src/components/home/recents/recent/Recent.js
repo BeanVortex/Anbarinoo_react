@@ -12,23 +12,26 @@ const Recent = (props) => {
   console.log(props);
   const stock = `موجودی : ${props.data.stock}`;
   const buyPrice = `قیمت خرید : ${props.data.buyPrice}`;
-  const sellPrice = `قیمت فروش : ${props.data.sellPrice}`;
   return (
     <div className="product">
       <div className="img">
         <img src={props.data.img} alt="productImage" />
       </div>
       <div className="content">
-        <div className="title">
+        <div className="content-title">
           <h4>{props.data.title}</h4>
           <div className="colors">{colorDiv}</div>
         </div>
-        <div className="body">
-          <p className="stock">{stock}</p>
-          <p className="buy-price">{buyPrice}</p>
-          <p className="sell-price">{sellPrice}</p>
+        <div className="content-body">
+          <p className="content-body-stock">{stock}</p>
+          <p className="content-body-buy-price">{buyPrice}</p>
+          <p className="content-body-sell-price">
+            قیمت فروش : <span>{props.data.sellPrice}</span>
+          </p>
         </div>
-        <button className="buy-btn">ثبت سفارش</button>
+        <div className="content-btn">
+          <button>ثبت سفارش</button>
+        </div>
       </div>
     </div>
   );

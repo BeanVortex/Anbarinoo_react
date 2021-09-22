@@ -1,8 +1,8 @@
 @import "variables.scss";
 @import "fonts.scss";
 
-@mixin boxShadow($color) {
-  box-shadow: 0.5px 0.5px 3px $color;
+@mixin boxShadow($color: rgba(218, 218, 218, 0.5), $spread: 3px) {
+  box-shadow: 0.5px 0.5px $spread $color;
 }
 
 @mixin scaleOnHover($val: 1.05) {
@@ -21,6 +21,14 @@
   -o-transition: all $time ease;
 }
 
+@mixin borderRadius($val: 10px) {
+  border-radius: $val;
+  -webkit-border-radius: $val;
+  -moz-border-radius: $val;
+  -ms-border-radius: $val;
+  -o-border-radius: $val;
+}
+
 @mixin titleStyle(
   $color: $primaryColor,
   $fontSize: 1.5rem,
@@ -30,7 +38,6 @@
   font-size: $fontSize;
   font-family: $fontFamily;
 }
-
 
 @mixin containerWidth {
   //for skipping nav
