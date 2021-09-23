@@ -9,6 +9,7 @@ const Recent = (props) => {
     );
   });
 
+
   console.log(props);
   const stock = `موجودی : ${props.data.stock}`;
   const buyPrice = `قیمت خرید : ${props.data.buyPrice}`;

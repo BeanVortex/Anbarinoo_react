@@ -1,12 +1,11 @@
 @import "../../../../styles/styles.scss";
 
 .product {
-  width: 300px;
+  width: 100%;
   background: white;
-  margin: 1rem;
   padding: 0.5rem;
   @include borderRadius();
-  @include boxShadow($spread: 10px);
+  @include boxShadow($color: rgba(172, 172, 172, 0.52),$spread: 10px);
 
   .img {
     width: 100%;

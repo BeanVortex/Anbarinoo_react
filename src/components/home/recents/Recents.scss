@@ -12,11 +12,17 @@
     }
   }
 
-  .products{
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      padding: 0 $defaultMargin;
+  .products {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 290px);
+    align-items: center;
+    justify-content: center;
+    grid-gap: 1.5rem;
+    grid-row-gap: 2rem;
+    direction: rtl;
+    overflow: hidden;
+    padding-bottom: 1rem;
+
   }
 }
