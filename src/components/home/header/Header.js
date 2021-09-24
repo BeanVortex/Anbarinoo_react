@@ -91,7 +91,6 @@ const Header = () => {
 
   let screenWidth = window.innerWidth;
 
-  console.log(screenWidth);
   if (screenWidth > 1920) {
     arr = arr.slice(0, 15);
   } else if (screenWidth <= 1920 && screenWidth >= 1800) {
