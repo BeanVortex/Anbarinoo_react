@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./Header.scss";
 import Cargo from "./cargo/Cargo";
-import axios from "axios";
+// import axios from "axios";
 
 const Header = () => {
   const [isSent, setIsSent] = useState(true);
-  const [cargos, setCargos] = useState([]);
+  // const [cargos, setCargos] = useState([]);
 
   const handleState = () => {
     const sentBtn = document.querySelector("button:nth-child(1)");

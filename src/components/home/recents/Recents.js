@@ -15,7 +15,7 @@ const Recents = () => {
       colors: ["#FF8A65", "#5BC0BE", "#97ACA4"],
     },
     {
-      id: 0,
+      id: 1,
       title: "گلکسی اس 21 الترا",
       stock: "365",
       buyPrice: "50",
@@ -24,7 +24,7 @@ const Recents = () => {
       colors: ["#FF8A65", "#5BC0BE", "#97ACA4"],
     },
     {
-      id: 0,
+      id: 2,
       title: "گلکسی اس 21 الترا",
       stock: "365",
       buyPrice: "50",
@@ -33,7 +33,7 @@ const Recents = () => {
       colors: ["#FF8A65", "#5BC0BE", "#97ACA4"],
     },
     {
-      id: 0,
+      id: 3,
       title: "گلکسی اس 21 الترا",
       stock: "365",
       buyPrice: "50",
@@ -42,7 +42,7 @@ const Recents = () => {
       colors: ["#FF8A65", "#5BC0BE", "#97ACA4"],
     },
     {
-      id: 0,
+      id: 4,
       title: "گلکسی اس 21 الترا",
       stock: "365",
       buyPrice: "50",
@@ -51,7 +51,7 @@ const Recents = () => {
       colors: ["#FF8A65", "#5BC0BE", "#97ACA4"],
     },
     {
-      id: 0,
+      id: 5,
       title: "گلکسی اس 21 الترا",
       stock: "365",
       buyPrice: "50",
@@ -60,7 +60,7 @@ const Recents = () => {
       colors: ["#FF8A65", "#5BC0BE", "#97ACA4"],
     },
     {
-      id: 0,
+      id: 6,
       title: "گلکسی اس 21 الترا",
       stock: "365",
       buyPrice: "50",
@@ -69,7 +69,7 @@ const Recents = () => {
       colors: ["#FF8A65", "#5BC0BE", "#97ACA4"],
     },
     {
-      id: 0,
+      id: 7,
       title: "گلکسی اس 21 الترا",
       stock: "365",
       buyPrice: "50",
