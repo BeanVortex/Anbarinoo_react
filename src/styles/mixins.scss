@@ -1,7 +1,7 @@
 @import "variables.scss";
 @import "fonts.scss";
 
-@mixin boxShadow($color: rgba(218, 218, 218, 0.5), $spread: 3px) {
+@mixin boxShadow($color: rgba(218, 218, 218, 0.664), $spread: 3px) {
   box-shadow: 0.5px 0.5px $spread $color;
 }
 

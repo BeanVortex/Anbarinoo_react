@@ -1,0 +1,51 @@
+@import "../../styles/styles.scss";
+
+.login-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: row-reverse;
+  overflow: hidden;
+
+  .title {
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    justify-content: center;
+    h1 {
+        width: 50%;
+        text-align: end;
+      transform: translateY(-100%);
+      -webkit-transform: translateY(-100%);
+      -moz-transform: translateY(-100%);
+      -ms-transform: translateY(-100%);
+      -o-transform: translateY(-100%);
+}
+  }
+
+  .login-cart {
+    width: 450px;
+    background: white;
+    @include boxShadow();
+    @include borderRadius(40px);
+    padding: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    .auth-options{
+        display: flex;
+        width: 40%;
+        align-self: flex-end;
+    }
+}
+}
+
+img{
+    width: 20px;
+    height: 20px;
+}

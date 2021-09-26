@@ -1,5 +1,7 @@
 import React from "react";
 import googleIcon from "../../resources/img/google-icon.png";
+import "./Login.scss";
+
 const Login = () => {
   return (
     <div className="login-container">

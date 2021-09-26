@@ -109,7 +109,7 @@
       margin-right: 2rem;
       font-size: 1.1rem;
       justify-self: center;
-      border-radius: 10px;
+      @include borderRadius();
       color: white;
       cursor: pointer;
       @include boxShadow($primaryColor);
