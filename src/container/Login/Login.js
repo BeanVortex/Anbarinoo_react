@@ -1,19 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import googleIcon from "../../resources/img/google-icon.png";
+import backVideo from "../../resources/video/login.mp4";
 import "./Login.scss";
 
 const loginSignupToggle = (e) => {
   const movable = document.querySelector(".auth-options .movable");
-  if (e.target.classList.contains("signup")) {
-    const login = document.querySelector(".auth-options .login");
+  const login = document.querySelector(".login");
+  const signup = document.querySelector(".signup");
+  if (e.target.classList.contains("signup-btn")) {
+    const loginBtn = document.querySelector(".auth-options .login-btn");
     e.target.classList.add("selected");
-    login.classList.remove("selected");
+    loginBtn.classList.remove("selected");
     movable.style.right = 0.5 + "rem";
+    login.classList.remove("show");
+    signup.classList.remove("hide");
   } else {
-    const signup = document.querySelector(".auth-options .signup");
+    const signupBtn = document.querySelector(".auth-options .signup-btn");
     e.target.classList.add("selected");
-    signup.classList.remove("selected");
+    signupBtn.classList.remove("selected");
     movable.style.right = "calc(50% - 0.5rem)";
+    login.classList.add("show");
+    signup.classList.add("hide");
   }
 };
 
@@ -43,16 +50,16 @@ const passChange = (e) => {
   }
 
   const uppercaseRg = /[A-Z]/;
-  if(uppercaseRg.test(val)){
+  if (uppercaseRg.test(val)) {
     enChar.classList.add("done");
-  }else{
+  } else {
     enChar.classList.remove("done");
   }
 
   const numRg = /[0-9]/;
-  if(numRg.test(val)){
+  if (numRg.test(val)) {
     num.classList.add("done");
-  }else{
+  } else {
     num.classList.remove("done");
   }
 
@@ -64,50 +71,73 @@ const passChange = (e) => {
   }
 };
 
+const authClick = () => {
+  const emailRg =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const email = document.querySelector("input[type=email]");
+  if (emailRg.test(email.value)) {
+    console.log(true);
+  } else {
+    console.log(false);
+  }
+};
+
 const Login = () => {
   return (
-    <div className="login-container">
+    <div className="auth-container">
       <div className="title">
         <h1>
           سیستمی برای مدیریت انبار و فروشگاه به بهترین صورت و امکانات جذاب و
           کاربردی
         </h1>
       </div>
-      <div className="login-cart">
+
+      <div className="cart">
         <div className="auth-options">
-          <div className="movable"></div>
-          <h3 className="signup selected" onClick={loginSignupToggle}>
+          <h3 className="signup-btn selected" onClick={loginSignupToggle}>
             ثبت نام
           </h3>
-          <h3 className="login" onClick={loginSignupToggle}>
+          <h3 className="login-btn" onClick={loginSignupToggle}>
             ورود
           </h3>
+          <div className="movable"></div>
         </div>
 
-        <form>
-          <input
-            type="text"
-            placeholder="نام کاربری"
-            onChange={usernameChange}
-          />
-          <input type="email" placeholder="ایمیل" />
-          <input
-            type="password"
-            placeholder=" رمز عبور"
-            onChange={passChange}
-          />
-        </form>
+        <div className="signup">
+          <form>
+            <input
+              type="text"
+              placeholder="نام کاربری"
+              onChange={usernameChange}
+            />
+            <input type="email" placeholder="    ایمیل" />
+            <input
+              type="password"
+              placeholder=" رمز عبور"
+              onChange={passChange}
+            />
+          </form>
 
-        <ul className="validations">
-          <li>نام کاربری حداقل 5 کاراکتر</li>
-          <li>رمز عبور حداقل 6 کاراکتر</li>
-          <li>رمز عبور دارای حداقل یک کاراکتر بزرگ انگلیسی</li>
-          <li>رمز عبور دارای حداقل یک عدد</li>
-          <li>رمز عبور دارای حداقل یک کاراکتر خاص</li>
-        </ul>
+          <ul className="validations">
+            <li>نام کاربری حداقل 5 کاراکتر</li>
+            <li>رمز عبور حداقل 6 کاراکتر</li>
+            <li>رمز عبور دارای حداقل یک کاراکتر بزرگ انگلیسی</li>
+            <li>رمز عبور دارای حداقل یک عدد</li>
+            <li>رمز عبور دارای حداقل یک کاراکتر خاص</li>
+          </ul>
+        </div>
 
-        <div className="login-btns">
-          <button className="submit">!تمام</button>
+        <div className="login">
+          <form>
+            <input type="email" placeholder="نام کاربری یا ایمیل" />
+            <input type="password" placeholder=" رمز عبور" />
+          </form>
+        </div>
+
+        <div className="auth-btns">
+          <button className="submit" onClick={authClick}>
+            !تمام
+          </button>
           <div className="google">
             ثبت نام با گوگل <img src={googleIcon} alt="" />
           </div>
@@ -118,7 +148,11 @@ const Login = () => {
           اعلام میدارید
         </p>
       </div>
+
+      <video src={backVideo} autoPlay muted loop></video>
+      <div className="layer"></div>
     </div>
   );
 };
+
 export default Login;

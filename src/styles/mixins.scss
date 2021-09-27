@@ -13,12 +13,12 @@
   -o-transform: scale($val);
 }
 
-@mixin transition($time: 0.3s) {
-  transition: all $time ease;
-  -webkit-transition: all $time ease;
-  -moz-transition: all $time ease;
-  -ms-transition: all $time ease;
-  -o-transition: all $time ease;
+@mixin transition($on: all, $time: 0.3s) {
+  transition: $on $time ease;
+  -webkit-transition: $on $time ease;
+  -moz-transition: $on $time ease;
+  -ms-transition: $on $time ease;
+  -o-transition: $on $time ease;
 }
 
 @mixin borderRadius($val: 10px) {
@@ -51,3 +51,4 @@
   -ms-transform: translateX($val);
   -o-transform: translateX($val);
 }
+

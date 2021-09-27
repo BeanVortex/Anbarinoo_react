@@ -1,7 +1,35 @@
 @import "../../styles/styles.scss";
 
-.login-container {
-  background: #333;
+@mixin loginInputStyle() {
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0 2rem;
+    margin-bottom: 1rem;
+    input {
+      margin: 0.8rem 0;
+      padding: 0.8rem;
+      width: 100%;
+      outline: none;
+      border: none;
+      border-bottom: 1.5px solid $thirdColorLight;
+      text-align: end;
+      font-size: 1.2rem;
+      color: $primaryLightColor;
+      opacity: 0.8;
+      @include transition();
+      &:focus {
+        border-bottom-color: $thirdColor;
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.auth-container {
   position: relative;
   width: 100vw;
   height: 100vh;
@@ -28,7 +56,7 @@
     }
   }
 
-  .login-cart {
+  .cart {
     width: 450px;
     background: white;
     @include boxShadow();
@@ -40,28 +68,29 @@
     position: relative;
     left: 10%;
     overflow: hidden;
+    @include transition();
 
     .auth-options {
-      display: flex;
       width: 225px;
+      height: 100%;
       position: relative;
       align-self: flex-end;
       display: flex;
       align-items: center;
-      direction: rtl;
+      flex-direction: row-reverse;
       color: $primaryLightColor;
       background: $thirdColorLight;
       @include borderRadius(40px);
       margin-bottom: 2rem;
       padding: 1rem;
 
-      h3 {
+      .signup-btn,
+      .login-btn {
         z-index: 2;
         width: 100%;
         height: 100%;
         text-align: center;
         cursor: pointer;
-        display: block;
         opacity: 0.6;
         @include transition();
         &.selected {
@@ -82,48 +111,50 @@
       }
     }
 
-    form {
+    .signup {
+      width: 100%;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-      width: 100%;
-      padding: 0 2rem;
-      margin-bottom: 1rem;
-      input {
-        margin: 0.8rem 0;
-        padding: 0.8rem;
-        width: 100%;
-        outline: none;
-        border: none;
-        border-bottom: 1.5px solid $thirdColorLight;
-        text-align: end;
-        font-size: 1.2rem;
-        color: $primaryLightColor;
-        opacity: 0.8;
-        @include transition();
-        &:focus {
-          border-bottom-color: $thirdColor;
-          opacity: 1;
-        }
-      }
-    }
-
-    .validations {
-      direction: rtl;
+      @include loginInputStyle();
+      @include translateX(0);
+      @include transition();
       margin-bottom: 2rem;
-      li {
-        color: $primaryLightColor;
-        opacity: 0.2;
-        @include transition();
-        &.done {
-          color: $thirdColor;
-          opacity: 1;
+      &.hide {
+        @include translateX(100%);
+        height: 0;
+      }
+
+      .validations {
+        direction: rtl;
+        li {
+          color: $primaryLightColor;
+          opacity: 0.2;
+          @include transition();
+          &.done {
+            color: $thirdColor;
+            opacity: 1;
+          }
         }
       }
     }
 
-    .login-btns {
+    .login {
+      width: 100%;
+      height: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      @include loginInputStyle();
+      @include translateX(100%);
+      @include transition();
+      &.show {
+        @include translateX(0);
+        height: auto;
+      }
+    }
+
+    .auth-btns {
       width: 60%;
 
       button {
@@ -179,5 +210,25 @@
         opacity: 1;
       }
     }
+  }
+
+  video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+  }
+
+  .layer {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(51, 51, 51, 0.6);
+    z-index: -1;
   }
 }
