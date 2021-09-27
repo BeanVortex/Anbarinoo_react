@@ -43,3 +43,11 @@
   //for skipping nav
   width: calc(100% - 80px);
 }
+
+@mixin translateX($val) {
+  transform: translateX($val);
+  -webkit-transform: translateX($val);
+  -moz-transform: translateX($val);
+  -ms-transform: translateX($val);
+  -o-transform: translateX($val);
+}

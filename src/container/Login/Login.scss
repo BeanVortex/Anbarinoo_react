@@ -1,6 +1,7 @@
 @import "../../styles/styles.scss";
 
 .login-container {
+  background: #333;
   position: relative;
   width: 100vw;
   height: 100vh;
@@ -14,17 +15,17 @@
     height: 100%;
     display: flex;
     align-items: center;
-
+    color: white;
     justify-content: center;
     h1 {
-        width: 50%;
-        text-align: end;
+      width: 50%;
+      text-align: end;
       transform: translateY(-100%);
       -webkit-transform: translateY(-100%);
       -moz-transform: translateY(-100%);
       -ms-transform: translateY(-100%);
       -o-transform: translateY(-100%);
-}
+    }
   }
 
   .login-cart {
@@ -37,15 +38,146 @@
     flex-direction: column;
     align-items: center;
     position: relative;
-    .auth-options{
-        display: flex;
-        width: 40%;
-        align-self: flex-end;
-    }
-}
-}
+    left: 10%;
+    overflow: hidden;
 
-img{
-    width: 20px;
-    height: 20px;
+    .auth-options {
+      display: flex;
+      width: 225px;
+      position: relative;
+      align-self: flex-end;
+      display: flex;
+      align-items: center;
+      direction: rtl;
+      color: $primaryLightColor;
+      background: $thirdColorLight;
+      @include borderRadius(40px);
+      margin-bottom: 2rem;
+      padding: 1rem;
+
+      h3 {
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        cursor: pointer;
+        display: block;
+        opacity: 0.6;
+        @include transition();
+        &.selected {
+          color: white;
+          opacity: 1;
+        }
+      }
+
+      .movable {
+        width: 50%;
+        height: 80%;
+        right: 0.5rem;
+        z-index: 1;
+        @include borderRadius(40px);
+        position: absolute;
+        background: $thirdColor;
+        @include transition();
+      }
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      padding: 0 2rem;
+      margin-bottom: 1rem;
+      input {
+        margin: 0.8rem 0;
+        padding: 0.8rem;
+        width: 100%;
+        outline: none;
+        border: none;
+        border-bottom: 1.5px solid $thirdColorLight;
+        text-align: end;
+        font-size: 1.2rem;
+        color: $primaryLightColor;
+        opacity: 0.8;
+        @include transition();
+        &:focus {
+          border-bottom-color: $thirdColor;
+          opacity: 1;
+        }
+      }
+    }
+
+    .validations {
+      direction: rtl;
+      margin-bottom: 2rem;
+      li {
+        color: $primaryLightColor;
+        opacity: 0.2;
+        @include transition();
+        &.done {
+          color: $thirdColor;
+          opacity: 1;
+        }
+      }
+    }
+
+    .login-btns {
+      width: 60%;
+
+      button {
+        width: 100%;
+        padding: 0.4rem 1rem;
+        font-size: 1.2rem;
+        background: $thirdColor;
+        cursor: pointer;
+        color: white;
+        border: none;
+        outline: none;
+        @include borderRadius(10px);
+        @include boxShadow($thirdColorShadow);
+        @include transition();
+        &:hover {
+          background: $thirdColorHover;
+        }
+      }
+      .google {
+        margin-top: 0.5rem;
+        padding: 0.4rem 1rem;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: white;
+        cursor: pointer;
+        @include borderRadius(10px);
+        @include boxShadow();
+        @include transition();
+        color: $primaryLightColor;
+        &:hover {
+          background: rgb(235, 235, 235);
+        }
+        img {
+          width: 20px;
+          height: 20px;
+          object-fit: cover;
+          margin-left: 0.5rem;
+        }
+      }
+    }
+
+    .rules {
+      width: 100%;
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.7rem;
+      opacity: 0.8;
+      span {
+        cursor: pointer;
+        color: rgb(43, 182, 246);
+        opacity: 1;
+      }
+    }
+  }
 }
