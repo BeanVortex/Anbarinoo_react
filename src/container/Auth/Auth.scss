@@ -119,7 +119,6 @@
       @include loginInputStyle();
       @include translateX(0);
       @include transition();
-      margin-bottom: 2rem;
       &.hide {
         @include translateX(100%);
         height: 0;
@@ -156,6 +155,7 @@
 
     .auth-btns {
       width: 60%;
+      margin-top: 2rem;
 
       button {
         width: 100%;

@@ -6,7 +6,7 @@ import Home from "./Home/Home";
 // import Statistics from "../components/nav/statistics/Statistics";
 import { AuthContext } from "../context/AuthContext";
 import { isAuthenticated } from "../utils/AuthUtil";
-import Login from "./Login/Login";
+import Auth from "./Auth/Auth";
 import "./App.scss";
 
 const App = (props) => {
@@ -28,7 +28,7 @@ const App = (props) => {
     <div>
       {isAuthed ? null : <Redirect to="/auth" />}
       <Switch>
-        <Route path="/auth" component={Login} />
+        <Route path="/auth" component={Auth} />
         {/* <Route path="/categories" exact component={Categories} />
         <Route path="/statistics" exact component={Settings} />
       <Route path="/settings" exact component={Statistics} /> */}

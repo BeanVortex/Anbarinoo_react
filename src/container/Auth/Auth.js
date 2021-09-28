@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import googleIcon from "../../resources/img/google-icon.png";
 import backVideo from "../../resources/video/login.mp4";
-import "./Login.scss";
+import debounce from "debounce";
+import "./Auth.scss";
 
 const loginSignupToggle = (e) => {
   const movable = document.querySelector(".auth-options .movable");
@@ -24,65 +25,101 @@ const loginSignupToggle = (e) => {
   }
 };
 
-const usernameChange = (e) => {
-  const usernameItem = document.querySelector(".validations").children[0];
-  const length = e.target.value.length;
-  if (length >= 5) {
-    usernameItem.classList.add("done");
-  } else {
-    usernameItem.classList.remove("done");
-  }
-};
+const Auth = () => {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [pass, setPass] = useState("");
+  const [rPass, setRPass] = useState("");
 
-const passChange = (e) => {
-  const items = document.querySelector(".validations").children;
-  const charLen = items[1];
-  const enChar = items[2];
-  const num = items[3];
-  const spChar = items[4];
+  const usernameChange = debounce((e) => {
+    const usernameItem = document.querySelector(".validations").children[0];
+    const length = e.target.value.length;
+    if (length >= 5) {
+      usernameItem.classList.add("done");
+      setUsername(e.target.value);
+    } else {
+      usernameItem.classList.remove("done");
+      setUsername("");
+    }
+  }, 300);
 
-  const val = e.target.value;
+  const passChange = debounce((e) => {
+    const items = document.querySelector(".validations").children;
+    const charLen = items[1];
+    const enChar = items[2];
+    const num = items[3];
+    const spChar = items[4];
 
-  if (val.length >= 6) {
-    charLen.classList.add("done");
-  } else {
-    charLen.classList.remove("done");
-  }
+    const val = e.target.value;
 
-  const uppercaseRg = /[A-Z]/;
-  if (uppercaseRg.test(val)) {
-    enChar.classList.add("done");
-  } else {
-    enChar.classList.remove("done");
-  }
+    if (val.length >= 6) {
+      charLen.classList.add("done");
+    } else {
+      charLen.classList.remove("done");
+    }
 
-  const numRg = /[0-9]/;
-  if (numRg.test(val)) {
-    num.classList.add("done");
-  } else {
-    num.classList.remove("done");
-  }
+    const uppercaseRg = /[A-Z]/;
+    if (uppercaseRg.test(val)) {
+      enChar.classList.add("done");
+    } else {
+      enChar.classList.remove("done");
+    }
 
-  const specialRg = /[^a-zA-Z0-9]/;
-  if (specialRg.test(val)) {
-    spChar.classList.add("done");
-  } else {
-    spChar.classList.remove("done");
-  }
-};
+    const numRg = /[0-9]/;
+    if (numRg.test(val)) {
+      num.classList.add("done");
+    } else {
+      num.classList.remove("done");
+    }
 
-const authClick = () => {
-  const emailRg =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  const email = document.querySelector("input[type=email]");
-  if (emailRg.test(email.value)) {
-    console.log(true);
-  } else {
-    console.log(false);
-  }
-};
+    const specialRg = /[^a-zA-Z0-9]/;
+    if (specialRg.test(val)) {
+      spChar.classList.add("done");
+    } else {
+      spChar.classList.remove("done");
+    }
 
-const Login = () => {
+    if (
+      charLen.classList.contains("done") &&
+      enChar.classList.contains("done") &&
+      numRg.classList.contains("done") &&
+      specialRg.classList.contains("done")
+    ) {
+      setPass(val);
+      setRPass(val);
+    } else {
+      setPass("");
+      setRPass("");
+    }
+  }, 300);
+
+  const emailChange = debounce((e) => {
+    const emailItem = document.querySelector(".validations").children[5];
+    const emailRg =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (emailRg.test(e.target.value)) {
+      emailItem.classList.add("done");
+      setEmail(e.target.value);
+    } else {
+      emailItem.classList.remove("done");
+      setEmail("");
+    }
+  }, 300);
+
+  const authClick = () => {
+    let counter = 0;
+    const validations = document.querySelectorAll(".validations li");
+    validations.forEach((item) => {
+      if (item.classList.contains("done")) counter++;
+    });
+
+    if (counter === validations.length) {
+      //request
+    } else {
+      alert("همه موارد رو رعایت کنید");
+    }
+  };
+
   return (
     <div className="auth-container">
       <div className="title">
@@ -110,12 +147,19 @@ const Login = () => {
               placeholder="نام کاربری"
               onChange={usernameChange}
             />
-            <input type="email" placeholder="    ایمیل" />
             <input
-              type="password"
-              placeholder=" رمز عبور"
-              onChange={passChange}
+              type="email"
+              placeholder="    ایمیل"
+              onChange={emailChange}
             />
+            <div>
+              <input
+                type="password"
+                placeholder=" رمز عبور"
+                onChange={passChange}
+              />
+              
+            </div>
           </form>
 
           <ul className="validations">
@@ -124,6 +168,7 @@ const Login = () => {
             <li>رمز عبور دارای حداقل یک کاراکتر بزرگ انگلیسی</li>
             <li>رمز عبور دارای حداقل یک عدد</li>
             <li>رمز عبور دارای حداقل یک کاراکتر خاص</li>
+            <li>ایمیل صحیح</li>
           </ul>
         </div>
 
@@ -155,4 +200,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Auth;
