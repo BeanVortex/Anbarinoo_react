@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import googleIcon from "../../resources/img/google-icon.png";
+import showEye from "../../resources/vectors/Show.svg";
+import hideEye from "../../resources/vectors/Hide.svg";
 import backVideo from "../../resources/video/login.mp4";
 import debounce from "debounce";
 import "./Auth.scss";
@@ -25,6 +27,17 @@ const loginSignupToggle = (e) => {
   }
 };
 
+const togglePassShow = (e, i) => {
+  const passIn = document.querySelectorAll(".pass-auth")[i];
+  if (passIn.getAttribute("type") === "password") {
+    passIn.setAttribute("type", "text");
+    e.target.setAttribute("src", showEye);
+    return;
+  }
+  passIn.setAttribute("type", "password");
+  e.target.setAttribute("src", hideEye);
+};
+
 const Auth = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -44,6 +57,7 @@ const Auth = () => {
   }, 300);
 
   const passChange = debounce((e) => {
+    //ids
     const items = document.querySelector(".validations").children;
     const charLen = items[1];
     const enChar = items[2];
@@ -80,16 +94,19 @@ const Auth = () => {
     }
 
     if (
-      charLen.classList.contains("done") &&
       enChar.classList.contains("done") &&
+      charLen.classList.contains("done") &&
       numRg.classList.contains("done") &&
       specialRg.classList.contains("done")
     ) {
       setPass(val);
       setRPass(val);
     } else {
-      setPass("");
-      setRPass("");
+      if (pass && rPass) {
+        console.log("d");
+        setPass("");
+        setRPass("");
+      }
     }
   }, 300);
 
@@ -154,11 +171,12 @@ const Auth = () => {
             />
             <div>
               <input
+                className="pass-auth"
                 type="password"
                 placeholder=" رمز عبور"
                 onChange={passChange}
               />
-              
+              <img src={hideEye} onClick={(e) => togglePassShow(e, 0)} alt="" />
             </div>
           </form>
 
@@ -175,7 +193,14 @@ const Auth = () => {
         <div className="login">
           <form>
             <input type="email" placeholder="نام کاربری یا ایمیل" />
-            <input type="password" placeholder=" رمز عبور" />
+            <div>
+              <input
+                className="pass-auth"
+                type="password"
+                placeholder=" رمز عبور"
+              />
+              <img src={hideEye} onClick={(e) => togglePassShow(e, 1)} alt="" />
+            </div>
           </form>
         </div>
 
