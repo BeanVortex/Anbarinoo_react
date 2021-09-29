@@ -63,7 +63,6 @@ const Auth = () => {
     const enChar = items[2];
     const num = items[3];
     const spChar = items[4];
-
     const val = e.target.value;
 
     if (val.length >= 6) {
@@ -96,8 +95,8 @@ const Auth = () => {
     if (
       enChar.classList.contains("done") &&
       charLen.classList.contains("done") &&
-      numRg.classList.contains("done") &&
-      specialRg.classList.contains("done")
+      num.classList.contains("done") &&
+      spChar.classList.contains("done")
     ) {
       setPass(val);
       setRPass(val);
@@ -131,7 +130,12 @@ const Auth = () => {
     });
 
     if (counter === validations.length) {
-      //request
+      const req = new FormData();
+      req.append("email", email);
+      req.append("username", username);
+      req.append("password", pass);
+      req.append("passwordRepeat", rPass);
+      //Todo request
     } else {
       alert("همه موارد رو رعایت کنید");
     }
