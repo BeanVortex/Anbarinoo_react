@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import googleIcon from "../../resources/img/google-icon.png";
 import showEye from "../../resources/vectors/Show.svg";
 import hideEye from "../../resources/vectors/Hide.svg";
 import backVideo from "../../resources/video/login.mp4";
 import debounce from "debounce";
 import "./Auth.scss";
+import { AuthContext } from "../../context/AuthContext";
 
 const loginSignupToggle = (e) => {
   const movable = document.querySelector(".auth-options .movable");
@@ -38,7 +39,9 @@ const togglePassShow = (e, i) => {
   e.target.setAttribute("src", hideEye);
 };
 
-const Auth = () => {
+const Auth = (props) => {
+  const { signup, /* login , */ userAuth } = useContext(AuthContext);
+  if (userAuth.authenticated) props.history.push("/");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
@@ -130,14 +133,12 @@ const Auth = () => {
     });
 
     if (counter === validations.length) {
-      const req = new FormData();
-      req.append("email", email);
-      req.append("username", username);
-      req.append("password", pass);
-      req.append("passwordRepeat", rPass);
-      //Todo request
+      try {
+        signup(email, username, pass);
+        this.props.history.push("/");
+      } catch (error) {}
     } else {
-      alert("همه موارد رو رعایت کنید");
+      alert("لطفا همه موارد رو رعایت کنید");
     }
   };
 

@@ -53,11 +53,8 @@ export default (props) => {
           authenticated: true,
           refreshExpiration: res.headers.refresh_expiration,
         });
-      })
-      .catch((error) => {
-        console.log(error);
-        return null;
       });
+      //catching error in signup component
   };
 
   const signup = (email, username, password) => {
@@ -65,6 +62,7 @@ export default (props) => {
     data.append("email", email);
     data.append("userName", username);
     data.append("password", password);
+    data.append("passwordRepeat", password);
 
     axios({
       url: "/api/user/signup/",

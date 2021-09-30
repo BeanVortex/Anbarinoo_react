@@ -9,10 +9,10 @@ import { isAuthenticated } from "../utils/AuthUtil";
 import Auth from "./Auth/Auth";
 import "./App.scss";
 
-const App = (props) => {
+const App = () => {
   const { userAuth, mapAuthToContext } = useContext(AuthContext);
   const [isAuthed, setIsAuthed] = useState(false);
-
+  
   useEffect(() => {
     if (!userAuth.authenticated && isAuthenticated()) {
       mapAuthToContext();
@@ -21,8 +21,7 @@ const App = (props) => {
     if (!userAuth.authenticated && !isAuthenticated()) {
       setIsAuthed(false);
     }
-  }, [userAuth, mapAuthToContext, isAuthed, setIsAuthed]);
-  console.log(props);
+  }, [userAuth, isAuthed, setIsAuthed, mapAuthToContext]);
 
   return (
     <div>

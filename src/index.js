@@ -11,7 +11,7 @@ import {
   setLocalStorage,
 } from "./utils/AuthUtil";
 
-axios.defaults.baseURL = "https://anbarinoo.ir";
+axios.defaults.baseURL = "http://localhost:8080";
 
 axios.interceptors.request.use(
   (request) => {
