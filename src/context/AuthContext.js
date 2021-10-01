@@ -54,7 +54,7 @@ export default (props) => {
           refreshExpiration: res.headers.refresh_expiration,
         });
       });
-      //catching error in signup component
+    //catching error in auth component
   };
 
   const signup = (email, username, password) => {
@@ -68,23 +68,19 @@ export default (props) => {
       url: "/api/user/signup/",
       method: "POST",
       data: data,
-    })
-      .then((res) => {
-        saveHeaders(res);
-        setUserAuth({
-          username: res.data.userName,
-          email: res.data.email,
-          profile: res.data.profile,
-          accessToken: res.headers.access_token,
-          refreshToken: res.headers.refresh_token,
-          authenticated: true,
-          refreshExpiration: res.headers.refresh_expiration,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        return null;
+    }).then((res) => {
+      saveHeaders(res);
+      setUserAuth({
+        username: res.data.userName,
+        email: res.data.email,
+        profile: res.data.profile,
+        accessToken: res.headers.access_token,
+        refreshToken: res.headers.refresh_token,
+        authenticated: true,
+        refreshExpiration: res.headers.refresh_expiration,
       });
+    });
+    //catching error in auth component
   };
 
   const mapAuthToContext = () => {

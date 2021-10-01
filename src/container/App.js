@@ -5,35 +5,36 @@ import Home from "./Home/Home";
 // import Settings from "../components/nav/settings/Settings";
 // import Statistics from "../components/nav/statistics/Statistics";
 import { AuthContext } from "../context/AuthContext";
-import { isAuthenticated } from "../utils/AuthUtil";
+import { isAuthenticated as isAuthenticatedInLocal } from "../utils/AuthUtil";
 import Auth from "./Auth/Auth";
 import "./App.scss";
 
 const App = () => {
   const { userAuth, mapAuthToContext } = useContext(AuthContext);
   const [isAuthed, setIsAuthed] = useState(false);
-  
+
   useEffect(() => {
-    if (!userAuth.authenticated && isAuthenticated()) {
+    if (!userAuth.authenticated && isAuthenticatedInLocal()) {
       mapAuthToContext();
       setIsAuthed(true);
     }
-    if (!userAuth.authenticated && !isAuthenticated()) {
+    if (!userAuth.authenticated && !isAuthenticatedInLocal()) {
       setIsAuthed(false);
     }
   }, [userAuth, isAuthed, setIsAuthed, mapAuthToContext]);
 
   return (
-    <div>
+    <>
       {isAuthed ? null : <Redirect to="/auth" />}
       <Switch>
-        <Route path="/auth" component={Auth} />
+        <Route path="/auth" exact component={Auth} />
+        <Route path="/logout" exact component={Auth} />
         {/* <Route path="/categories" exact component={Categories} />
         <Route path="/statistics" exact component={Settings} />
       <Route path="/settings" exact component={Statistics} /> */}
         <Route path="/" component={Home} />
       </Switch>
-    </div>
+    </>
   );
 };
 

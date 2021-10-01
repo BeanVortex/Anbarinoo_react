@@ -48,7 +48,7 @@ const Nav = () => {
           </Link>
         </li>
         <li>
-          <Link to="logout" className="link">
+          <Link to="/logout" params={{ logout: true }} className="link">
             <img src={logoutImg} alt="" />
           </Link>
         </li>

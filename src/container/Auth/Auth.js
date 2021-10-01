@@ -7,27 +7,6 @@ import debounce from "debounce";
 import "./Auth.scss";
 import { AuthContext } from "../../context/AuthContext";
 
-const loginSignupToggle = (e) => {
-  const movable = document.querySelector(".auth-options .movable");
-  const login = document.querySelector(".login");
-  const signup = document.querySelector(".signup");
-  if (e.target.classList.contains("signup-btn")) {
-    const loginBtn = document.querySelector(".auth-options .login-btn");
-    e.target.classList.add("selected");
-    loginBtn.classList.remove("selected");
-    movable.style.right = 0.5 + "rem";
-    login.classList.remove("show");
-    signup.classList.remove("hide");
-  } else {
-    const signupBtn = document.querySelector(".auth-options .signup-btn");
-    e.target.classList.add("selected");
-    signupBtn.classList.remove("selected");
-    movable.style.right = "calc(50% - 0.5rem)";
-    login.classList.add("show");
-    signup.classList.add("hide");
-  }
-};
-
 const togglePassShow = (e, i) => {
   const passIn = document.querySelectorAll(".pass-auth")[i];
   if (passIn.getAttribute("type") === "password") {
@@ -40,12 +19,44 @@ const togglePassShow = (e, i) => {
 };
 
 const Auth = (props) => {
-  const { signup, /* login , */ userAuth } = useContext(AuthContext);
-  if (userAuth.authenticated) props.history.push("/");
+  const { signup, login, logout, userAuth } = useContext(AuthContext);
+  if (props.match.path === "/logout") {
+    logout();
+    window.history.pushState(null, null, "/auth");
+    window.onpopstate = () => {
+      window.history.go(1);
+    };
+  } else {
+    if (userAuth.authenticated) props.history.push("/");
+  }
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [rPass, setRPass] = useState("");
+  const [isLogin, setIsLogin] = useState(false);
+
+  const loginSignupToggle = (e) => {
+    const movable = document.querySelector(".auth-options .movable");
+    const login = document.querySelector(".login");
+    const signup = document.querySelector(".signup");
+    if (e.target.classList.contains("signup-btn")) {
+      const loginBtn = document.querySelector(".auth-options .login-btn");
+      e.target.classList.add("selected");
+      loginBtn.classList.remove("selected");
+      movable.style.right = 0.5 + "rem";
+      login.classList.remove("show");
+      signup.classList.remove("hide");
+      setIsLogin(false);
+    } else {
+      const signupBtn = document.querySelector(".auth-options .signup-btn");
+      e.target.classList.add("selected");
+      signupBtn.classList.remove("selected");
+      movable.style.right = "calc(50% - 0.5rem)";
+      login.classList.add("show");
+      signup.classList.add("hide");
+      setIsLogin(true);
+    }
+  };
 
   const usernameChange = debounce((e) => {
     const usernameItem = document.querySelector(".validations").children[0];
@@ -126,19 +137,35 @@ const Auth = (props) => {
   }, 300);
 
   const authClick = () => {
-    let counter = 0;
-    const validations = document.querySelectorAll(".validations li");
-    validations.forEach((item) => {
-      if (item.classList.contains("done")) counter++;
-    });
+    if (!isLogin) {
+      let counter = 0;
+      const validations = document.querySelectorAll(".validations li");
+      validations.forEach((item) => {
+        if (item.classList.contains("done")) counter++;
+      });
 
-    if (counter === validations.length) {
-      try {
-        signup(email, username, pass);
-        this.props.history.push("/");
-      } catch (error) {}
+      if (counter === validations.length) {
+        try {
+          signup(email, username, pass);
+          this.props.history.push("/");
+        } catch (error) {
+          //TODO handle error
+          console.log(error);
+        }
+      } else {
+        alert("لطفا همه موارد رو رعایت کنید");
+      }
     } else {
-      alert("لطفا همه موارد رو رعایت کنید");
+      const emailOrUsername = document.querySelector(
+        ".login input[type='email']"
+      ).value;
+      const password = document.querySelector(".login div input").value;
+      try {
+        login(emailOrUsername, password);
+      } catch (error) {
+        //TODO handle error
+        console.log(error);
+      }
     }
   };
 
