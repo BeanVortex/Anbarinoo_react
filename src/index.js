@@ -11,7 +11,9 @@ import {
   setLocalStorage,
 } from "./utils/AuthUtil";
 
-axios.defaults.baseURL = "http://localhost:8080";
+export const BaseUrl = "http://localhost:8080";
+
+axios.defaults.baseURL = BaseUrl;
 
 axios.interceptors.request.use(
   (request) => {
