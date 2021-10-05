@@ -11,12 +11,11 @@ import "./App.scss";
 
 const App = () => {
   const { userAuth, mapAuthToContext } = useContext(AuthContext);
-  const [isAuthed, setIsAuthed] = useState(false);
+  const [isAuthed, setIsAuthed] = useState(true);
 
   useEffect(() => {
     if (!userAuth.authenticated && isAuthenticatedInLocal()) {
       mapAuthToContext();
-      setIsAuthed(true);
     }
     if (!userAuth.authenticated && !isAuthenticatedInLocal()) {
       setIsAuthed(false);

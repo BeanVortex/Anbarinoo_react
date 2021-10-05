@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
 
 import "./Nav.scss";
-import profileImg from "../../resources/img/profile.jpg";
 import homeImg from "../../resources/vectors/Home.svg";
 import categoryImg from "../../resources/vectors/Category.svg";
 import statisticImg from "../../resources/vectors/Chart.svg";
@@ -14,38 +13,24 @@ import axios from "axios";
 import { BaseUrl } from "../../index";
 
 const Nav = () => {
-  const { userAuth } = useContext(AuthContext);
-  const [userInfo, setUserInfo] = useState({
-    username: "",
-    img: "",
-  });
-  const [fetch, setFetch] = useState({
-    pending: false,
-    fetched: false,
-  });
+  const { userInfo, setUserInfo } = useContext(AuthContext);
 
   useEffect(() => {
-    console.log(6);
-    if (!fetch.pending && !fetch.fetched) {
-      setFetch((prev) => {
-        return { pending: true, fetched: prev.fetched };
-      });
+    if (!userInfo.username && !userInfo.img) {
       axios.get("/api/user/").then((res) => {
         setUserInfo({
           username: res.data.userName,
-          img: BaseUrl + "/user/profile_images/" + res.data.profileImage,
-        });
-        setFetch((prev) => {
-          return { pending: prev.pending, fetched: true };
+          profile: BaseUrl + "/user/profile_images/" + res.data.profileImage,
+          email: res.data.email,
         });
       });
     }
-  }, [fetch.fetched, fetch.pending, setUserInfo, userAuth]);
+  }, [setUserInfo, userInfo]);
 
   return (
     <nav className="nav">
       <div className="info">
-        <img src={(userInfo && userInfo.img) || null} alt="" />
+        <img src={(userInfo && userInfo.profile) || null} alt="" />
         <h3>{(userInfo && userInfo.username) || "علی"}</h3>
       </div>
 
@@ -76,7 +61,7 @@ const Nav = () => {
           </Link>
         </li>
         <li>
-          <Link to="/logout" params={{ logout: true }} className="link">
+          <Link to="/logout" className="link">
             <img src={logoutImg} alt="" />
           </Link>
         </li>

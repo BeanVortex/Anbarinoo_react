@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import googleIcon from "../../resources/img/google-icon.png";
 import showEye from "../../resources/vectors/Show.svg";
 import hideEye from "../../resources/vectors/Hide.svg";
@@ -20,12 +21,10 @@ const togglePassShow = (e, i) => {
 
 const Auth = (props) => {
   const { signup, login, logout, userAuth } = useContext(AuthContext);
+  const history = useHistory();
   if (props.match.path === "/logout") {
     logout();
-    window.history.pushState(null, null, "/auth");
-    window.onpopstate = () => {
-      window.history.go(1);
-    };
+    history.push("/auth");
   } else {
     if (userAuth.authenticated) props.history.push("/");
   }
@@ -162,6 +161,7 @@ const Auth = (props) => {
       const password = document.querySelector(".login div input").value;
       try {
         login(emailOrUsername, password);
+        // console.log(userAuth);
       } catch (error) {
         //TODO handle error
         console.log(error);

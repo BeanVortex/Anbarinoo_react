@@ -7,24 +7,20 @@ import {
   setLocalStorage,
 } from "../utils/AuthUtil";
 
-const initialState = {
-  username: "",
-  email: "",
-  profile: "",
+const userAuthInitial = {
   accessToken: "",
   refreshToken: "",
   authenticated: false,
   refreshExpiration: null,
 };
+const userInfoInitial = {
+  username: "",
+  profile: "",
+  email: "",
+};
 
-export const AuthContext = createContext({
-  userAuth: initialState,
-  setUserAuth: () => {},
-  login: () => {},
-  signup: () => {},
-  logout: () => {},
-  mapAuthToContext: () => {},
-});
+export const AuthContext = createContext();
+export const UserInfoContext = createContext();
 
 const saveHeaders = (res) => {
   setLocalStorage("refresh_token", res.headers.refresh_token);
@@ -34,7 +30,8 @@ const saveHeaders = (res) => {
 };
 
 export default (props) => {
-  const [userAuth, setUserAuth] = useState(initialState);
+  const [userAuth, setUserAuth] = useState(userAuthInitial);
+  const [userInfo, setUserInfo] = useState(userInfoInitial);
 
   const login = (username, password) => {
     axios
@@ -45,13 +42,15 @@ export default (props) => {
       .then((res) => {
         saveHeaders(res);
         setUserAuth({
-          username: res.data.userName,
-          email: res.data.email,
-          profile: res.data.profile,
           accessToken: res.headers.access_token,
           refreshToken: res.headers.refresh_token,
           authenticated: true,
           refreshExpiration: res.headers.refresh_expiration,
+        });
+        setUserInfo({
+          username: res.data.userName,
+          profile: res.data.profile,
+          email: res.data.email,
         });
       });
     //catching error in auth component
@@ -71,13 +70,15 @@ export default (props) => {
     }).then((res) => {
       saveHeaders(res);
       setUserAuth({
-        username: res.data.userName,
-        email: res.data.email,
-        profile: res.data.profile,
         accessToken: res.headers.access_token,
         refreshToken: res.headers.refresh_token,
         authenticated: true,
         refreshExpiration: res.headers.refresh_expiration,
+      });
+      setUserInfo({
+        username: res.data.userName,
+        profile: res.data.profile,
+        email: res.data.email,
       });
     });
     //catching error in auth component
@@ -95,12 +96,22 @@ export default (props) => {
 
   const logout = () => {
     clearLocalStorage();
-    setUserAuth(initialState);
+    setUserAuth(userAuthInitial);
+    setUserInfo(userInfoInitial);
   };
 
   return (
     <AuthContext.Provider
-      value={{ userAuth, setUserAuth, login, signup, logout, mapAuthToContext }}
+      value={{
+        userAuth,
+        setUserAuth,
+        userInfo,
+        setUserInfo,
+        login,
+        signup,
+        logout,
+        mapAuthToContext,
+      }}
     >
       {props.children}
     </AuthContext.Provider>
