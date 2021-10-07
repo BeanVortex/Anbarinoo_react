@@ -27,7 +27,6 @@ const saveHeaders = (res) => {
   setLocalStorage("refresh_token", res.headers.refresh_token);
   setLocalStorage("access_token", res.headers.access_token);
   setLocalStorage("refresh_expiration", res.headers.refresh_expiration);
-  setLocalStorage("access_expiration", res.headers.access_expiration);
 };
 
 export default (props) => {

@@ -1,21 +1,24 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect, useHistory } from "react-router-dom";
 import Home from "./Home/Home";
-// import Categories from "../components/nav/categories/Categories";
-// import Settings from "../components/nav/settings/Settings";
-// import Statistics from "../components/nav/statistics/Statistics";
 import { AuthContext } from "../context/AuthContext";
-import { isAuthenticated as isAuthenticatedInLocal } from "../utils/AuthUtil";
+import {
+  isAuthenticated as isAuthenticatedInLocal,
+  isTokenExpired as isLocalTokenExpired,
+} from "../utils/AuthUtil";
 import Auth from "./Auth/Auth";
 import "./App.scss";
+import axios from "axios";
+import { BaseUrl } from "../index";
 
 const App = () => {
-  const { userAuth, mapAuthToContext } = useContext(AuthContext);
+  const { userInfo, setUserInfo, logout, userAuth, mapAuthToContext } =
+    useContext(AuthContext);
   const [isAuthed, setIsAuthed] = useState(true);
+  const history = useHistory();
 
   useEffect(() => {
     if (!userAuth.authenticated && isAuthenticatedInLocal()) {
-      console.log(":s");
       mapAuthToContext();
     }
     if (!userAuth.authenticated && !isAuthenticatedInLocal()) {
@@ -23,15 +26,33 @@ const App = () => {
     }
   }, [userAuth, isAuthed, setIsAuthed, mapAuthToContext]);
 
+  useEffect(() => {
+    if (!userInfo.username && !userInfo.img && !userAuth.authenticated) {
+      if (isAuthenticatedInLocal() && !isLocalTokenExpired()) {
+        axios
+          .get("/api/user/info/")
+          .then((res) => {
+            setUserInfo({
+              username: res.data.userName,
+              profile:
+                BaseUrl + "/user/profile_images/" + res.data.profileImage,
+              email: res.data.email,
+            });
+          });
+      } else {
+        setIsAuthed(false);
+        logout();
+        history.push("/auth");
+      }
+    }
+  }, [history, logout, setUserInfo, userAuth, userInfo]);
+
   return (
     <>
       {isAuthed ? null : <Redirect to="/auth" />}
       <Switch>
         <Route path="/auth" exact component={Auth} />
         <Route path="/logout" exact component={Auth} />
-        {/* <Route path="/categories" exact component={Categories} />
-        <Route path="/statistics" exact component={Settings} />
-      <Route path="/settings" exact component={Statistics} /> */}
         <Route path="/" component={Home} />
       </Switch>
     </>

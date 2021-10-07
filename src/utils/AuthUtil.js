@@ -1,4 +1,3 @@
-import { Redirect } from "react-router-dom";
 
 export const setLocalStorage = (key, value) => {
   localStorage.setItem(key, value);
@@ -22,16 +21,16 @@ export const isAuthenticated = () => {
   return getLocalStorage("refresh_token") && getLocalStorage("access_token");
 };
 
-export const redirect = (auth) => {
-  let r = null;
-  if (!auth) {
-    r = <Redirect from="/" to="/login" />;
-    if (isAuthenticated() && !isTokenExpired()) r = null;
-  }
-  return r;
-};
+// export const redirect = (auth) => {
+//   let r = null;
+//   if (!auth) {
+//     r = <Redirect from="/" to="/login" />;
+//     if (isAuthenticated() && !isTokenExpired()) r = null;
+//   }
+//   return r;
+// };
 
-const isTokenExpired = () => {
+export const isTokenExpired = () => {
   let expireDate = new Date(getLocalStorage("refresh_expiration"));
   if (new Date().getTime() > expireDate.getTime()) {
     clearLocalStorage();
@@ -45,7 +44,6 @@ export const clearLocalStorage = () => {
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
     localStorage.removeItem("refresh_expiration");
-    localStorage.removeItem("access_expiration");
   }
 };
 
