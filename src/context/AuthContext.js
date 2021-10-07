@@ -1,6 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 import React, { useState, createContext } from "react";
 import axios from "axios";
+import { BaseUrl } from "../index";
 import {
   clearLocalStorage,
   getAuthLocalData,
@@ -49,7 +50,7 @@ export default (props) => {
         });
         setUserInfo({
           username: res.data.userName,
-          profile: res.data.profile,
+          profile: BaseUrl + "/user/profile_images/" + res.data.profileImage,
           email: res.data.email,
         });
       });
@@ -77,7 +78,7 @@ export default (props) => {
       });
       setUserInfo({
         username: res.data.userName,
-        profile: res.data.profile,
+        profile:  BaseUrl + "/user/profile_images/" + res.data.profileImage,
         email: res.data.email,
       });
     });

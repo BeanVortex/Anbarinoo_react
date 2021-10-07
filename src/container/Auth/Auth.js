@@ -26,7 +26,7 @@ const Auth = (props) => {
     logout();
     history.push("/auth");
   } else {
-    if (userAuth.authenticated) props.history.push("/");
+    if (userAuth.authenticated) history.push("/");
   }
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");

@@ -4,7 +4,6 @@ import App from "./container/App";
 import { BrowserRouter } from "react-router-dom";
 import AuthProvider from "./context/AuthContext";
 import axios from "axios";
-
 import {
   isAuthenticated,
   requestHeader,
@@ -28,9 +27,10 @@ axios.interceptors.request.use(
   },
   (error) => {
     console.log("[REQ](ERR): ", error);
-    return Promise.reject(error);
+    return Promise.reject(error.response);
   }
 );
+
 
 axios.interceptors.response.use(
   (response) => {
@@ -43,8 +43,8 @@ axios.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.log("[RES](ERR): ", error);
-    return Promise.reject(error);
+    console.log("[RES](ERR): ", error.response);
+    return Promise.reject(error.response);
   }
 );
 

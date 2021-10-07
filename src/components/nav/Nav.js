@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { Link } from "react-router-dom";
-
+import { Link, useHistory } from "react-router-dom";
+import { isAuthenticated } from "../../utils/AuthUtil";
 import "./Nav.scss";
 import homeImg from "../../resources/vectors/Home.svg";
 import categoryImg from "../../resources/vectors/Category.svg";
@@ -13,19 +13,33 @@ import axios from "axios";
 import { BaseUrl } from "../../index";
 
 const Nav = () => {
-  const { userInfo, setUserInfo } = useContext(AuthContext);
-
+  const { userInfo, setUserInfo, logout, userAuth } = useContext(AuthContext);
+  const history = useHistory();
   useEffect(() => {
-    if (!userInfo.username && !userInfo.img) {
-      axios.get("/api/user/").then((res) => {
-        setUserInfo({
-          username: res.data.userName,
-          profile: BaseUrl + "/user/profile_images/" + res.data.profileImage,
-          email: res.data.email,
-        });
-      });
+    if (!userInfo.username && !userInfo.img && !userAuth.authenticated) {
+      if (isAuthenticated()) {
+        axios
+          .get("/api/user/info/")
+          .then((res) => {
+            setUserInfo({
+              username: res.data.userName,
+              profile:
+                BaseUrl + "/user/profile_images/" + res.data.profileImage,
+              email: res.data.email,
+            });
+          })
+          .catch((err) => {
+            if (err.status === 401) {
+              logout();
+              history.push("/auth");
+            }
+          });
+      }else{
+        history.push("/auth");
+      }
     }
-  }, [setUserInfo, userInfo]);
+  }, [history, logout, setUserInfo, userAuth, userInfo]);
+
 
   return (
     <nav className="nav">

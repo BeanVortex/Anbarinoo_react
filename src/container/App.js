@@ -15,6 +15,7 @@ const App = () => {
 
   useEffect(() => {
     if (!userAuth.authenticated && isAuthenticatedInLocal()) {
+      console.log(":s");
       mapAuthToContext();
     }
     if (!userAuth.authenticated && !isAuthenticatedInLocal()) {
