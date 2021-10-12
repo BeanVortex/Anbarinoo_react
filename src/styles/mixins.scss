@@ -21,6 +21,14 @@
   -o-transition: $on $time ease;
 }
 
+@mixin transform($transform) {
+  transform: $transform;
+  -webkit-transform: $transform;
+  -moz-transform: $transform;
+  -ms-transform: $transform;
+  -o-transform: $transform;
+}
+
 @mixin borderRadius($val: 10px) {
   border-radius: $val;
   -webkit-border-radius: $val;

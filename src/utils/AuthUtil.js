@@ -21,15 +21,6 @@ export const isAuthenticated = () => {
   return getLocalStorage("refresh_token") && getLocalStorage("access_token");
 };
 
-// export const redirect = (auth) => {
-//   let r = null;
-//   if (!auth) {
-//     r = <Redirect from="/" to="/login" />;
-//     if (isAuthenticated() && !isTokenExpired()) r = null;
-//   }
-//   return r;
-// };
-
 export const isTokenExpired = () => {
   let expireDate = new Date(getLocalStorage("refresh_expiration"));
   if (new Date().getTime() > expireDate.getTime()) {
