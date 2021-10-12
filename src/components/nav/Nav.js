@@ -12,20 +12,21 @@ import logoutImg from "../../resources/vectors/Logout.svg";
 
 const linkHintHandler = () => {
   const links = document.querySelectorAll(".nav ul li a");
-  links.forEach(link => {
+  links.forEach((link) => {
     const hint = link.nextElementSibling;
     link.onmouseover = () => {
-      if(!hint.classList.contains("showHint")){
+      if (!hint.classList.contains("showHint")) {
         hint.classList.add("showHint");
       }
-    }
+    };
     link.onmouseleave = () => {
-      if(hint.classList.contains("showHint")){
+      if (hint.classList.contains("showHint")) {
         hint.classList.remove("showHint");
       }
-    }
-  })
+    };
+  });
 };
+
 
 
 const Nav = () => {

@@ -10,6 +10,8 @@ import Auth from "./Auth/Auth";
 import "./App.scss";
 import axios from "axios";
 import { BaseUrl } from "../index";
+import AddProduct from "./Product/AddProduct/AddProduct";
+import Nav from "../components/nav/Nav";
 
 const App = () => {
   const { userInfo, setUserInfo, logout, userAuth, mapAuthToContext } =
@@ -29,16 +31,13 @@ const App = () => {
   useEffect(() => {
     if (!userInfo.username && !userInfo.img && !userAuth.authenticated) {
       if (isAuthenticatedInLocal() && !isLocalTokenExpired()) {
-        axios
-          .get("/api/user/info/")
-          .then((res) => {
-            setUserInfo({
-              username: res.data.userName,
-              profile:
-                BaseUrl + "/user/profile_images/" + res.data.profileImage,
-              email: res.data.email,
-            });
+        axios.get("/api/user/info/").then((res) => {
+          setUserInfo({
+            username: res.data.userName,
+            profile: BaseUrl + "/user/profile_images/" + res.data.profileImage,
+            email: res.data.email,
           });
+        });
       } else {
         setIsAuthed(false);
         logout();
@@ -49,10 +48,12 @@ const App = () => {
 
   return (
     <>
+      <Nav />
       {isAuthed ? null : <Redirect to="/auth" />}
       <Switch>
         <Route path="/auth" exact component={Auth} />
         <Route path="/logout" exact component={Auth} />
+        <Route path="/new-product" exact component={AddProduct} />
         <Route path="/" component={Home} />
       </Switch>
     </>
