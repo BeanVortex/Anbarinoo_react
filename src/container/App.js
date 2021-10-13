@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { Route, Switch, Redirect, useHistory } from "react-router-dom";
 import Home from "./Home/Home";
 import { AuthContext } from "../context/AuthContext";
@@ -14,41 +14,51 @@ import AddProduct from "./Product/AddProduct/AddProduct";
 import Nav from "../components/nav/Nav";
 
 const App = () => {
-  const { userInfo, setUserInfo, logout, userAuth, mapAuthToContext } =
+  const { userInfo, setUserInfo, logout, mapAuthToContext, isAuthed, setIsAuthed } =
     useContext(AuthContext);
-  const [isAuthed, setIsAuthed] = useState(true);
+
   const history = useHistory();
 
   useEffect(() => {
-    if (!userAuth.authenticated && isAuthenticatedInLocal()) {
+    if (!isAuthed && isAuthenticatedInLocal()) {
       mapAuthToContext();
     }
-    if (!userAuth.authenticated && !isAuthenticatedInLocal()) {
+    if (!isAuthed && !isAuthenticatedInLocal()) {
       setIsAuthed(false);
     }
-  }, [userAuth, isAuthed, setIsAuthed, mapAuthToContext]);
+  }, [isAuthed, setIsAuthed, mapAuthToContext]);
 
   useEffect(() => {
-    if (!userInfo.username && !userInfo.img && !userAuth.authenticated) {
+    if (!userInfo.username && !userInfo.img && !isAuthed) {
       if (isAuthenticatedInLocal() && !isLocalTokenExpired()) {
-        axios.get("/api/user/info/").then((res) => {
-          setUserInfo({
-            username: res.data.userName,
-            profile: BaseUrl + "/user/profile_images/" + res.data.profileImage,
-            email: res.data.email,
+        axios
+          .get("/api/user/info/")
+          .then((res) => {
+            setUserInfo({
+              username: res.data.userName,
+              profile:
+                BaseUrl + "/user/profile_images/" + res.data.profileImage,
+              email: res.data.email,
+            });
+            setIsAuthed(true);
+          })
+          .catch(() => {
+            setIsAuthed(false);
+            logout();
+            history.push("/auth");
           });
-        });
       } else {
         setIsAuthed(false);
         logout();
         history.push("/auth");
       }
     }
-  }, [history, logout, setUserInfo, userAuth, userInfo]);
+  }, [history, isAuthed, logout, setIsAuthed, setUserInfo, userInfo]);
 
+  console.log("body");
   return (
     <>
-      <Nav />
+      {isAuthed ? <Nav /> : null}
       {isAuthed ? null : <Redirect to="/auth" />}
       <Switch>
         <Route path="/auth" exact component={Auth} />

@@ -20,13 +20,14 @@ const togglePassShow = (e, i) => {
 };
 
 const Auth = (props) => {
-  const { signup, login, logout, userAuth } = useContext(AuthContext);
+  const { signup, login, logout,isAuthed } = useContext(AuthContext);
+  // const { isAuthed } = useContext(IsAuthedContext);
   const history = useHistory();
   if (props.match.path === "/logout") {
     logout();
     history.push("/auth");
   } else {
-    if (userAuth.authenticated) history.push("/");
+    if (isAuthed) history.push("/");
   }
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");

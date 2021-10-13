@@ -11,7 +11,6 @@ import {
 const userAuthInitial = {
   accessToken: "",
   refreshToken: "",
-  authenticated: false,
   refreshExpiration: null,
 };
 const userInfoInitial = {
@@ -19,9 +18,9 @@ const userInfoInitial = {
   profile: "",
   email: "",
 };
+const isAuthedInitial = false;
 
 export const AuthContext = createContext();
-export const UserInfoContext = createContext();
 
 const saveHeaders = (res) => {
   setLocalStorage("refresh_token", res.headers.refresh_token);
@@ -32,6 +31,7 @@ const saveHeaders = (res) => {
 export default (props) => {
   const [userAuth, setUserAuth] = useState(userAuthInitial);
   const [userInfo, setUserInfo] = useState(userInfoInitial);
+  const [isAuthed, setIsAuthed] = useState(isAuthedInitial);
 
   const login = (username, password) => {
     axios
@@ -44,9 +44,9 @@ export default (props) => {
         setUserAuth({
           accessToken: res.headers.access_token,
           refreshToken: res.headers.refresh_token,
-          authenticated: true,
           refreshExpiration: res.headers.refresh_expiration,
         });
+        setIsAuthed(true);
         setUserInfo({
           username: res.data.userName,
           profile: BaseUrl + "/user/profile_images/" + res.data.profileImage,
@@ -75,9 +75,10 @@ export default (props) => {
         authenticated: true,
         refreshExpiration: res.headers.refresh_expiration,
       });
+      setIsAuthed(true);
       setUserInfo({
         username: res.data.userName,
-        profile:  BaseUrl + "/user/profile_images/" + res.data.profileImage,
+        profile: BaseUrl + "/user/profile_images/" + res.data.profileImage,
         email: res.data.email,
       });
     });
@@ -90,14 +91,15 @@ export default (props) => {
       accessToken: payload.accessToken,
       refreshToken: payload.refreshToken,
       refreshExpiration: payload.refreshExpiration,
-      authenticated: true,
     });
+    setIsAuthed(true);
   };
 
   const logout = () => {
     clearLocalStorage();
     setUserAuth(userAuthInitial);
     setUserInfo(userInfoInitial);
+    setIsAuthed(isAuthedInitial);
   };
 
   return (
@@ -111,6 +113,8 @@ export default (props) => {
         signup,
         logout,
         mapAuthToContext,
+        isAuthed, 
+        setIsAuthed
       }}
     >
       {props.children}
