@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import googleIcon from "../../resources/img/google-icon.png";
 import showEye from "../../resources/vectors/Show.svg";
@@ -20,15 +20,18 @@ const togglePassShow = (e, i) => {
 };
 
 const Auth = (props) => {
-  const { signup, login, logout,isAuthed } = useContext(AuthContext);
-  // const { isAuthed } = useContext(IsAuthedContext);
+  const { signup, login, logout, isAuthed } = useContext(AuthContext);
+
   const history = useHistory();
-  if (props.match.path === "/logout") {
-    logout();
-    history.push("/auth");
-  } else {
-    if (isAuthed) history.push("/");
-  }
+  useEffect(() => {
+    if (props.match.path === "/logout") {
+      logout();
+      history.push("/auth");
+    } else {
+      if (isAuthed) history.push("/");
+    }
+  }, [history, isAuthed, logout, props.match.path]);
+
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
@@ -147,7 +150,7 @@ const Auth = (props) => {
       if (counter === validations.length) {
         try {
           signup(email, username, pass);
-          this.props.history.push("/");
+          history.push("/");
         } catch (error) {
           //TODO handle error
           console.log(error);
@@ -162,7 +165,7 @@ const Auth = (props) => {
       const password = document.querySelector(".login div input").value;
       try {
         login(emailOrUsername, password);
-        // console.log(userAuth);
+        history.push("/");
       } catch (error) {
         //TODO handle error
         console.log(error);
