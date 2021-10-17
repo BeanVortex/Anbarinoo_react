@@ -213,7 +213,8 @@ const Auth = (props) => {
                 !تمام
               </button>
               <div className="google">
-                ثبت نام با گوگل <img src={googleIcon} alt="" />
+                <img src={googleIcon} alt="" />
+                <p>ثبت نام با گوگل</p>
               </div>
             </div>
           </form>
@@ -222,6 +223,7 @@ const Auth = (props) => {
         <div className={`login ${isLogin ? "show" : "hide"}`}>
           <form>
             <input type="email" placeholder="نام کاربری یا ایمیل" />
+
             <div>
               <input
                 className="pass-auth"
@@ -230,12 +232,14 @@ const Auth = (props) => {
               />
               <img src={hideEye} onClick={(e) => togglePassShow(e, 1)} alt="" />
             </div>
+
             <div className="auth-btns">
               <button className="submit" type="submit" onClick={authClick}>
                 !تمام
               </button>
               <div className="google">
-                ثبت نام با گوگل <img src={googleIcon} alt="" />
+                <img src={googleIcon} alt="" />
+                <p>ثبت نام با گوگل</p>
               </div>
             </div>
           </form>

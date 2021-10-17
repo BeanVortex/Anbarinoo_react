@@ -178,11 +178,14 @@
     }
 
     .auth-btns {
-      width: 60%;
       margin-top: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
 
-      button {
-        width: 100%;
+      .submit {
+        width: 60%;
         padding: 0.4rem 1rem;
         font-size: 1.2rem;
         background: $thirdColor;
@@ -198,14 +201,14 @@
         }
       }
       .google {
+        width: 60%;
         margin-top: 0.5rem;
-        padding: 0.4rem 1rem;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         background: white;
         cursor: pointer;
+        display: flex;
+        flex-direction: row-reverse;
+        
+        padding: 0.4rem 1rem;
         @include borderRadius(10px);
         @include boxShadow();
         @include transition();
@@ -214,10 +217,14 @@
           background: rgb(235, 235, 235);
         }
         img {
+          display: block;
           width: 20px;
           height: 20px;
           object-fit: cover;
           margin-left: 0.5rem;
+        }
+        p{
+          display: block;
         }
       }
     }
