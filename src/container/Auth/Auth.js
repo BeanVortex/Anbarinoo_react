@@ -39,26 +39,9 @@ const Auth = (props) => {
   const [isLogin, setIsLogin] = useState(false);
 
   const loginSignupToggle = (e) => {
-    const movable = document.querySelector(".auth-options .movable");
-    const login = document.querySelector(".login");
-    const signup = document.querySelector(".signup");
-    if (e.target.classList.contains("signup-btn")) {
-      const loginBtn = document.querySelector(".auth-options .login-btn");
-      e.target.classList.add("selected");
-      loginBtn.classList.remove("selected");
-      movable.style.right = 0.5 + "rem";
-      login.classList.remove("show");
-      signup.classList.remove("hide");
-      setIsLogin(false);
-    } else {
-      const signupBtn = document.querySelector(".auth-options .signup-btn");
-      e.target.classList.add("selected");
-      signupBtn.classList.remove("selected");
-      movable.style.right = "calc(50% - 0.5rem)";
-      login.classList.add("show");
-      signup.classList.add("hide");
+    if (isLogin && !e.target.classList.contains("login-btn")) setIsLogin(false);
+    else if (!isLogin && !e.target.classList.contains("signup-btn"))
       setIsLogin(true);
-    }
   };
 
   const usernameChange = debounce((e) => {
@@ -182,18 +165,29 @@ const Auth = (props) => {
         </h1>
       </div>
 
-      <div className="cart">
+      <div className="card">
         <div className="auth-options">
-          <h3 className="signup-btn selected" onClick={loginSignupToggle}>
+          <h3
+            className={`signup-btn ${isLogin ? "" : "selected"}`}
+            onClick={loginSignupToggle}
+          >
             ثبت نام
           </h3>
-          <h3 className="login-btn" onClick={loginSignupToggle}>
+          <h3
+            className={`login-btn ${isLogin ? "selected" : ""}`}
+            onClick={loginSignupToggle}
+          >
             ورود
           </h3>
-          <div className="movable"></div>
+          <div
+            className="movable"
+            style={
+              isLogin ? { right: "calc(50% - 0.5rem)" } : { right: "0.5rem" }
+            }
+          ></div>
         </div>
 
-        <div className="signup">
+        <div className={`signup ${isLogin ? "hide" : "show"}`}>
           <form>
             <input
               type="text"
@@ -226,7 +220,7 @@ const Auth = (props) => {
           </ul>
         </div>
 
-        <div className="login">
+        <div className={`login ${isLogin ? "show" : "hide"}`}>
           <form>
             <input type="email" placeholder="نام کاربری یا ایمیل" />
             <div>

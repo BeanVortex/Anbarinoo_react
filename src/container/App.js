@@ -57,7 +57,7 @@ const App = () => {
             })
             .catch(() => logoutAndDeleteData());
         } else logoutAndDeleteData();
-      }
+      }else logoutAndDeleteData();
     }
   }, [history, isAuthed, logout, setIsAuthed, setUserInfo, userInfo]);
 

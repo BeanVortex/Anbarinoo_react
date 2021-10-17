@@ -1,0 +1,22 @@
+@import "../../../../styles/styles.scss";
+.add-image-card {
+  min-width: 400px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 1rem;
+  background: $gray;
+  cursor: pointer;
+  overflow: hidden;
+  @include borderRadius();
+  img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+  }
+  .make-big {
+    width: 100%;
+    height: 100%;
+  }
+}

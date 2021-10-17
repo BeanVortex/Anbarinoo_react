@@ -1,7 +1,5 @@
 @import "../../styles/styles.scss";
 
-
-
 @mixin loginInputStyle() {
   form {
     display: flex;
@@ -83,7 +81,7 @@
     }
   }
 
-  .cart {
+  .card {
     width: 450px;
     background: white;
     @include boxShadow();
