@@ -37,6 +37,12 @@ const Auth = (props) => {
   const [pass, setPass] = useState("");
   const [rPass, setRPass] = useState("");
   const [isLogin, setIsLogin] = useState(false);
+  const [isUserNameOK, setIsUserNameOK] = useState(false);
+  const [isEmailOK, setIsEmailOK] = useState(false);
+  const [isPassLengthOK, setIsPassLengthOK] = useState(false);
+  const [isPassSpecialOK, setIsPassSpecialOK] = useState(false);
+  const [isPassNumberOK, setIsPassNumberOK] = useState(false);
+  const [isPassUpperOK, setIsPassUpperOK] = useState(false);
 
   const loginSignupToggle = (e) => {
     if (isLogin && !e.target.classList.contains("login-btn")) setIsLogin(false);
@@ -45,64 +51,40 @@ const Auth = (props) => {
   };
 
   const usernameChange = debounce((e) => {
-    const usernameItem = document.querySelector(".validations").children[0];
     const length = e.target.value.length;
     if (length >= 5) {
-      usernameItem.classList.add("done");
       setUsername(e.target.value);
+      setIsUserNameOK(true);
     } else {
-      usernameItem.classList.remove("done");
       setUsername("");
+      setIsUserNameOK(false);
     }
   }, 300);
 
   const passChange = debounce((e) => {
     //ids
-    const items = document.querySelector(".validations").children;
-    const charLen = items[1];
-    const enChar = items[2];
-    const num = items[3];
-    const spChar = items[4];
     const val = e.target.value;
 
-    if (val.length >= 6) {
-      charLen.classList.add("done");
-    } else {
-      charLen.classList.remove("done");
-    }
+    if (val.length >= 6) setIsPassLengthOK(true);
+    else setIsPassLengthOK(false);
 
     const uppercaseRg = /[A-Z]/;
-    if (uppercaseRg.test(val)) {
-      enChar.classList.add("done");
-    } else {
-      enChar.classList.remove("done");
-    }
+    if (uppercaseRg.test(val)) setIsPassUpperOK(true);
+    else setIsPassUpperOK(false);
 
     const numRg = /[0-9]/;
-    if (numRg.test(val)) {
-      num.classList.add("done");
-    } else {
-      num.classList.remove("done");
-    }
+    if (numRg.test(val)) setIsPassNumberOK(true);
+    else setIsPassNumberOK(false);
 
     const specialRg = /[^a-zA-Z0-9]/;
-    if (specialRg.test(val)) {
-      spChar.classList.add("done");
-    } else {
-      spChar.classList.remove("done");
-    }
+    if (specialRg.test(val)) setIsPassSpecialOK(true);
+    else setIsPassSpecialOK(false);
 
-    if (
-      enChar.classList.contains("done") &&
-      charLen.classList.contains("done") &&
-      num.classList.contains("done") &&
-      spChar.classList.contains("done")
-    ) {
+    if (isPassSpecialOK && isPassUpperOK && isPassLengthOK && isPassNumberOK) {
       setPass(val);
       setRPass(val);
     } else {
       if (pass && rPass) {
-        console.log("d");
         setPass("");
         setRPass("");
       }
@@ -110,27 +92,27 @@ const Auth = (props) => {
   }, 300);
 
   const emailChange = debounce((e) => {
-    const emailItem = document.querySelector(".validations").children[5];
     const emailRg =
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (emailRg.test(e.target.value)) {
-      emailItem.classList.add("done");
       setEmail(e.target.value);
+      setIsEmailOK(true);
     } else {
-      emailItem.classList.remove("done");
       setEmail("");
+      setIsEmailOK(false);
     }
   }, 300);
 
   const authClick = () => {
     if (!isLogin) {
-      let counter = 0;
-      const validations = document.querySelectorAll(".validations li");
-      validations.forEach((item) => {
-        if (item.classList.contains("done")) counter++;
-      });
-
-      if (counter === validations.length) {
+      if (
+        isUserNameOK &&
+        isEmailOK &&
+        isPassSpecialOK &&
+        isPassUpperOK &&
+        isPassLengthOK &&
+        isPassNumberOK
+      ) {
         try {
           signup(email, username, pass);
           history.push("/");
@@ -188,7 +170,7 @@ const Auth = (props) => {
         </div>
 
         <div className={`signup ${isLogin ? "hide" : "show"}`}>
-          <form>
+          <form onSubmit={(e) => e.preventDefault()}>
             <input
               type="text"
               placeholder="نام کاربری"
@@ -208,16 +190,33 @@ const Auth = (props) => {
               />
               <img src={hideEye} onClick={(e) => togglePassShow(e, 0)} alt="" />
             </div>
+            <ul className="validations">
+              <li className={`${isUserNameOK ? "done" : ""}`}>
+                نام کاربری حداقل 5 کاراکتر
+              </li>
+              <li className={`${isPassLengthOK ? "done" : ""}`}>
+                رمز عبور حداقل 6 کاراکتر
+              </li>
+              <li className={`${isPassUpperOK ? "done" : ""}`}>
+                رمز عبور دارای حداقل یک کاراکتر بزرگ انگلیسی
+              </li>
+              <li className={`${isPassNumberOK ? "done" : ""}`}>
+                رمز عبور دارای حداقل یک عدد
+              </li>
+              <li className={`${isPassSpecialOK ? "done" : ""}`}>
+                رمز عبور دارای حداقل یک کاراکتر خاص
+              </li>
+              <li className={`${isEmailOK ? "done" : ""}`}>ایمیل صحیح</li>
+            </ul>
+            <div className="auth-btns">
+              <button className="submit" type="submit" onClick={authClick}>
+                !تمام
+              </button>
+              <div className="google">
+                ثبت نام با گوگل <img src={googleIcon} alt="" />
+              </div>
+            </div>
           </form>
-
-          <ul className="validations">
-            <li>نام کاربری حداقل 5 کاراکتر</li>
-            <li>رمز عبور حداقل 6 کاراکتر</li>
-            <li>رمز عبور دارای حداقل یک کاراکتر بزرگ انگلیسی</li>
-            <li>رمز عبور دارای حداقل یک عدد</li>
-            <li>رمز عبور دارای حداقل یک کاراکتر خاص</li>
-            <li>ایمیل صحیح</li>
-          </ul>
         </div>
 
         <div className={`login ${isLogin ? "show" : "hide"}`}>
@@ -231,16 +230,15 @@ const Auth = (props) => {
               />
               <img src={hideEye} onClick={(e) => togglePassShow(e, 1)} alt="" />
             </div>
+            <div className="auth-btns">
+              <button className="submit" type="submit" onClick={authClick}>
+                !تمام
+              </button>
+              <div className="google">
+                ثبت نام با گوگل <img src={googleIcon} alt="" />
+              </div>
+            </div>
           </form>
-        </div>
-
-        <div className="auth-btns">
-          <button className="submit" onClick={authClick}>
-            !تمام
-          </button>
-          <div className="google">
-            ثبت نام با گوگل <img src={googleIcon} alt="" />
-          </div>
         </div>
 
         <p className="rules">
