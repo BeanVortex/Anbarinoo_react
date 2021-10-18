@@ -8,17 +8,6 @@ import debounce from "debounce";
 import "./Auth.scss";
 import { AuthContext } from "../../context/AuthContext";
 
-const togglePassShow = (e, i) => {
-  const passIn = document.querySelectorAll(".pass-auth")[i];
-  if (passIn.getAttribute("type") === "password") {
-    passIn.setAttribute("type", "text");
-    e.target.setAttribute("src", showEye);
-    return;
-  }
-  passIn.setAttribute("type", "password");
-  e.target.setAttribute("src", hideEye);
-};
-
 const Auth = (props) => {
   const { signup, login, logout, isAuthed } = useContext(AuthContext);
 
@@ -32,17 +21,24 @@ const Auth = (props) => {
     }
   }, [history, isAuthed, logout, props.match.path]);
 
+  //signup field states
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [rPass, setRPass] = useState("");
   const [isLogin, setIsLogin] = useState(false);
+  //signup field validation states
   const [isUserNameOK, setIsUserNameOK] = useState(false);
   const [isEmailOK, setIsEmailOK] = useState(false);
   const [isPassLengthOK, setIsPassLengthOK] = useState(false);
   const [isPassSpecialOK, setIsPassSpecialOK] = useState(false);
   const [isPassNumberOK, setIsPassNumberOK] = useState(false);
   const [isPassUpperOK, setIsPassUpperOK] = useState(false);
+  const [isSignupPassVisible, setIsSignupPassVisible] = useState(false);
+  //login field states
+  const [loginUsernameOrEmail, setLoginUsernameOrEmail] = useState("");
+  const [loginPass, setLoginPass] = useState("");
+  const [isLoginPassVisible, setIsLoginPassVisible] = useState(false);
 
   const loginSignupToggle = (e) => {
     if (isLogin && !e.target.classList.contains("login-btn")) setIsLogin(false);
@@ -50,7 +46,7 @@ const Auth = (props) => {
       setIsLogin(true);
   };
 
-  const usernameChange = debounce((e) => {
+  const signupUsernameChange = debounce((e) => {
     const length = e.target.value.length;
     if (length >= 5) {
       setUsername(e.target.value);
@@ -61,7 +57,7 @@ const Auth = (props) => {
     }
   }, 300);
 
-  const passChange = debounce((e) => {
+  const signupPassChange = debounce((e) => {
     //ids
     const val = e.target.value;
 
@@ -91,7 +87,7 @@ const Auth = (props) => {
     }
   }, 300);
 
-  const emailChange = debounce((e) => {
+  const signupEmailChange = debounce((e) => {
     const emailRg =
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (emailRg.test(e.target.value)) {
@@ -103,6 +99,17 @@ const Auth = (props) => {
     }
   }, 300);
 
+  const loginUsernameOrEmailChange = debounce((e) => {
+    const val = e.target.value;
+    if (val) setLoginUsernameOrEmail(val);
+    else setLoginUsernameOrEmail("");
+  });
+  const loginPassChange = debounce((e) => {
+    const val = e.target.value;
+    if (val) setLoginPass(val);
+    else setLoginPass("");
+  });
+
   const authClick = () => {
     if (!isLogin) {
       if (
@@ -113,29 +120,38 @@ const Auth = (props) => {
         isPassLengthOK &&
         isPassNumberOK
       ) {
-        try {
-          signup(email, username, pass);
-          history.push("/");
-        } catch (error) {
-          //TODO handle error
-          console.log(error);
-        }
+        signup(email, username, pass)
+          .then(() => {
+            history.push("/");
+          })
+          .catch((err) => {
+            //todo handle error
+          });
       } else {
         alert("لطفا همه موارد رو رعایت کنید");
       }
     } else {
-      const emailOrUsername = document.querySelector(
-        ".login input[type='email']"
-      ).value;
-      const password = document.querySelector(".login div input").value;
-      try {
-        login(emailOrUsername, password);
-        history.push("/");
-      } catch (error) {
-        //TODO handle error
-        console.log(error);
+      if (loginUsernameOrEmail && loginPass) {
+        login(loginUsernameOrEmail, loginPass)
+          .then(() => {
+            history.push("/");
+          })
+          .catch((err) => {
+            //todo handle error
+          });
+      } else {
+        alert("موارد را درست بنویسید");
       }
     }
+  };
+
+  const signupTogglePassShow = () => {
+    if (isSignupPassVisible) setIsSignupPassVisible(false);
+    else setIsSignupPassVisible(true);
+  };
+  const loginTogglePassShow = () => {
+    if (isLoginPassVisible) setIsLoginPassVisible(false);
+    else setIsLoginPassVisible(true);
   };
 
   return (
@@ -174,21 +190,25 @@ const Auth = (props) => {
             <input
               type="text"
               placeholder="نام کاربری"
-              onChange={usernameChange}
+              onChange={signupUsernameChange}
             />
             <input
               type="email"
               placeholder="    ایمیل"
-              onChange={emailChange}
+              onChange={signupEmailChange}
             />
             <div>
               <input
                 className="pass-auth"
-                type="password"
+                type={isSignupPassVisible ? "text" : "password"}
                 placeholder=" رمز عبور"
-                onChange={passChange}
+                onChange={signupPassChange}
               />
-              <img src={hideEye} onClick={(e) => togglePassShow(e, 0)} alt="" />
+              <img
+                src={isSignupPassVisible ? showEye : hideEye}
+                onClick={signupTogglePassShow}
+                alt=""
+              />
             </div>
             <ul className="validations">
               <li className={`${isUserNameOK ? "done" : ""}`}>
@@ -213,7 +233,9 @@ const Auth = (props) => {
                 !تمام
               </button>
               <div className="google">
-                <img src={googleIcon} alt="" />
+                <div>
+                  <img src={googleIcon} alt="" />
+                </div>
                 <p>ثبت نام با گوگل</p>
               </div>
             </div>
@@ -221,16 +243,25 @@ const Auth = (props) => {
         </div>
 
         <div className={`login ${isLogin ? "show" : "hide"}`}>
-          <form>
-            <input type="email" placeholder="نام کاربری یا ایمیل" />
+          <form onSubmit={(e) => e.preventDefault()}>
+            <input
+              type="text"
+              placeholder="نام کاربری یا ایمیل"
+              onChange={loginUsernameOrEmailChange}
+            />
 
             <div>
               <input
                 className="pass-auth"
-                type="password"
+                type={isLoginPassVisible ? "text" : "password"}
                 placeholder=" رمز عبور"
+                onChange={loginPassChange}
               />
-              <img src={hideEye} onClick={(e) => togglePassShow(e, 1)} alt="" />
+              <img
+                src={isLoginPassVisible ? showEye : hideEye}
+                onClick={loginTogglePassShow}
+                alt=""
+              />
             </div>
 
             <div className="auth-btns">
@@ -238,7 +269,9 @@ const Auth = (props) => {
                 !تمام
               </button>
               <div className="google">
-                <img src={googleIcon} alt="" />
+                <div>
+                  <img src={googleIcon} alt="" />
+                </div>
                 <p>ثبت نام با گوگل</p>
               </div>
             </div>

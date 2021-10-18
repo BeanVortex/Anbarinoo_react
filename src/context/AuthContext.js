@@ -33,8 +33,8 @@ export default (props) => {
   const [userInfo, setUserInfo] = useState(userInfoInitial);
   const [isAuthed, setIsAuthed] = useState(isAuthedInitial);
 
-  const login = (username, password) => {
-    axios
+  const login = async (username, password) => {
+    let res = await axios
       .post("/api/user/login/", {
         username,
         password,
@@ -53,17 +53,18 @@ export default (props) => {
           email: res.data.email,
         });
       });
+    return res;
     //catching error in auth component
   };
 
-  const signup = (email, username, password) => {
+  const signup = async (email, username, password) => {
     const data = new FormData();
     data.append("email", email);
     data.append("userName", username);
     data.append("password", password);
     data.append("passwordRepeat", password);
 
-    axios({
+    let res = await axios({
       url: "/api/user/signup/",
       method: "POST",
       data: data,
@@ -82,6 +83,7 @@ export default (props) => {
         email: res.data.email,
       });
     });
+    return res;
     //catching error in auth component
   };
 
@@ -113,8 +115,8 @@ export default (props) => {
         signup,
         logout,
         mapAuthToContext,
-        isAuthed, 
-        setIsAuthed
+        isAuthed,
+        setIsAuthed,
       }}
     >
       {props.children}

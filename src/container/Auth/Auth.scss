@@ -178,6 +178,8 @@
     }
 
     .auth-btns {
+      max-width: 60%;
+      position: relative;
       margin-top: 2rem;
       display: flex;
       align-items: center;
@@ -185,7 +187,7 @@
       flex-direction: column;
 
       .submit {
-        width: 60%;
+        width: 100%;
         padding: 0.4rem 1rem;
         font-size: 1.2rem;
         background: $thirdColor;
@@ -201,30 +203,35 @@
         }
       }
       .google {
-        width: 60%;
+        width: 100%;
         margin-top: 0.5rem;
         background: white;
         cursor: pointer;
         display: flex;
+        align-items: center;
+        justify-content: center;
         flex-direction: row-reverse;
-        
+
         padding: 0.4rem 1rem;
         @include borderRadius(10px);
-        @include boxShadow();
+        @include boxShadow(rgb(195, 195, 195));
         @include transition();
         color: $primaryLightColor;
         &:hover {
           background: rgb(235, 235, 235);
         }
-        img {
-          display: block;
+        div {
           width: 20px;
           height: 20px;
-          object-fit: cover;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           margin-left: 0.5rem;
-        }
-        p{
-          display: block;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
         }
       }
     }
