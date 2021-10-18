@@ -61,6 +61,7 @@ const App = () => {
     }
   }, [history, isAuthed, logout, setIsAuthed, setUserInfo, userInfo]);
 
+  console.log("d");
   return (
     <>
       {isAuthed ? <Nav /> : null}
