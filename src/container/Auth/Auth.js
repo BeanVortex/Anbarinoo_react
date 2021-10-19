@@ -7,6 +7,7 @@ import backVideo from "../../resources/video/login.mp4";
 import debounce from "debounce";
 import "./Auth.scss";
 import { AuthContext } from "../../context/AuthContext";
+import { toast, ToastContainer } from "react-toastify";
 
 const Auth = (props) => {
   const { signup, login, logout, isAuthed } = useContext(AuthContext);
@@ -125,10 +126,21 @@ const Auth = (props) => {
             history.push("/");
           })
           .catch((err) => {
+            toast.error("مشکلی پیش آمد دوباره امتحان کنید", {
+              position: "bottom-right",
+              closeButton: true,
+              closeOnClick: true,
+              autoClose: 3000,
+            });
             //todo handle error
           });
       } else {
-        alert("لطفا همه موارد رو رعایت کنید");
+        toast.warn("لطفا همه موارد ثبت نام را رعایت کنید", {
+          position: "bottom-right",
+          closeButton: true,
+          closeOnClick: true,
+          autoClose: 3000,
+        });
       }
     } else {
       if (loginUsernameOrEmail && loginPass) {
@@ -137,10 +149,21 @@ const Auth = (props) => {
             history.push("/");
           })
           .catch((err) => {
+            toast.error("مشکلی پیش آمد دوباره امتحان کنید", {
+              position: "bottom-right",
+              closeButton: true,
+              closeOnClick: true,
+              autoClose: 3000,
+            });
             //todo handle error
           });
       } else {
-        alert("موارد را درست بنویسید");
+        toast.warn("لطفا نام کاربری و پسورد درستی وارد کنید", {
+          position: "bottom-right",
+          closeButton: true,
+          closeOnClick: true,
+          autoClose: 3000,
+        });
       }
     }
   };
@@ -286,6 +309,7 @@ const Auth = (props) => {
 
       <video src={backVideo} autoPlay muted loop></video>
       <div className="layer"></div>
+      <ToastContainer />
     </div>
   );
 };

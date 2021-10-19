@@ -4,6 +4,7 @@ import App from "./container/App";
 import { BrowserRouter } from "react-router-dom";
 import AuthProvider from "./context/AuthContext";
 import axios from "axios";
+import "react-toastify/dist/ReactToastify.css";
 import {
   isAuthenticated,
   requestHeader,

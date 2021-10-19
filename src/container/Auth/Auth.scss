@@ -149,8 +149,11 @@
         height: 0;
       }
       .validations {
-        direction: rtl;
+        position: relative;
         li {
+          width: 100%;
+          display: flex;
+          justify-content: flex-end;
           color: $primaryLightColor;
           opacity: 0.2;
           @include transition();
