@@ -52,7 +52,7 @@ const Nav = () => {
   const { userInfo } = useContext(AuthContext);
 
   const items = itemsData.map((_x, i) => (
-    <Item data={itemsData[i]} />
+    <Item key={i} data={itemsData[i]} />
   ));
 
   return (
