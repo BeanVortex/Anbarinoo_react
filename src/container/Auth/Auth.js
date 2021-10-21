@@ -8,6 +8,7 @@ import debounce from "debounce";
 import "./Auth.scss";
 import { AuthContext } from "../../context/AuthContext";
 import { toast, ToastContainer } from "react-toastify";
+import Load from "../../components/load/Load";
 
 const Auth = (props) => {
   const { signup, login, logout, isAuthed } = useContext(AuthContext);
@@ -40,6 +41,8 @@ const Auth = (props) => {
   const [loginUsernameOrEmail, setLoginUsernameOrEmail] = useState("");
   const [loginPass, setLoginPass] = useState("");
   const [isLoginPassVisible, setIsLoginPassVisible] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const loginSignupToggle = (e) => {
     if (isLogin && !e.target.classList.contains("login-btn")) setIsLogin(false);
@@ -112,6 +115,7 @@ const Auth = (props) => {
   });
 
   const authClick = () => {
+    setIsLoading(true);
     if (!isLogin) {
       if (
         isUserNameOK &&
@@ -123,9 +127,11 @@ const Auth = (props) => {
       ) {
         signup(email, username, pass)
           .then(() => {
+            setIsLoading(false);
             history.push("/");
           })
-          .catch((err) => {
+          .catch((_err) => {
+            setIsLoading(false);
             toast.error("مشکلی پیش آمد دوباره امتحان کنید", {
               position: "bottom-right",
               closeButton: true,
@@ -135,6 +141,7 @@ const Auth = (props) => {
             //todo handle error
           });
       } else {
+        setIsLoading(false);
         toast.warn("لطفا همه موارد ثبت نام را رعایت کنید", {
           position: "bottom-right",
           closeButton: true,
@@ -146,9 +153,11 @@ const Auth = (props) => {
       if (loginUsernameOrEmail && loginPass) {
         login(loginUsernameOrEmail, loginPass)
           .then(() => {
+            setIsLoading(false);
             history.push("/");
           })
-          .catch((err) => {
+          .catch((_err) => {
+            setIsLoading(false);
             toast.error("مشکلی پیش آمد دوباره امتحان کنید", {
               position: "bottom-right",
               closeButton: true,
@@ -158,6 +167,7 @@ const Auth = (props) => {
             //todo handle error
           });
       } else {
+        setIsLoading(false);
         toast.warn("لطفا نام کاربری و پسورد درستی وارد کنید", {
           position: "bottom-right",
           closeButton: true,
@@ -179,6 +189,7 @@ const Auth = (props) => {
 
   return (
     <div className="auth-container">
+      {isLoading ? <Load type="ball-grid-pulse" /> : null}
       <div className="title">
         <h1>
           سیستمی برای مدیریت انبار و فروشگاه به بهترین صورت و امکانات جذاب و
