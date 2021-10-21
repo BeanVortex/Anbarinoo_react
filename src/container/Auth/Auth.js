@@ -14,6 +14,7 @@ const Auth = (props) => {
   const { signup, login, logout, isAuthed } = useContext(AuthContext);
 
   const history = useHistory();
+
   useEffect(() => {
     if (props.match.path === "/logout") {
       logout();
@@ -21,13 +22,13 @@ const Auth = (props) => {
     } else {
       if (isAuthed) history.push("/");
     }
+    return () => {};
   }, [history, isAuthed, logout, props.match.path]);
 
   //signup field states
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
-  const [rPass, setRPass] = useState("");
   const [isLogin, setIsLogin] = useState(false);
   //signup field validation states
   const [isUserNameOK, setIsUserNameOK] = useState(false);
@@ -62,33 +63,38 @@ const Auth = (props) => {
   }, 300);
 
   const signupPassChange = debounce((e) => {
-    //ids
     const val = e.target.value;
 
-    if (val.length >= 6) setIsPassLengthOK(true);
-    else setIsPassLengthOK(false);
+    if (val.length >= 6) {
+      if (!isPassLengthOK) {
+        setIsPassLengthOK(true);
+        setPass(val);
+      }
+    } else setIsPassLengthOK(false);
 
     const uppercaseRg = /[A-Z]/;
-    if (uppercaseRg.test(val)) setIsPassUpperOK(true);
-    else setIsPassUpperOK(false);
+    if (uppercaseRg.test(val)) {
+      if (!isPassUpperOK) {
+        setIsPassUpperOK(true);
+        setPass(val);
+      }
+    } else setIsPassUpperOK(false);
 
     const numRg = /[0-9]/;
-    if (numRg.test(val)) setIsPassNumberOK(true);
-    else setIsPassNumberOK(false);
+    if (numRg.test(val)) {
+      if (!isPassNumberOK) {
+        setIsPassNumberOK(true);
+        setPass(val);
+      }
+    } else setIsPassNumberOK(false);
 
     const specialRg = /[^a-zA-Z0-9]/;
-    if (specialRg.test(val)) setIsPassSpecialOK(true);
-    else setIsPassSpecialOK(false);
-
-    if (isPassSpecialOK && isPassUpperOK && isPassLengthOK && isPassNumberOK) {
-      setPass(val);
-      setRPass(val);
-    } else {
-      if (pass && rPass) {
-        setPass("");
-        setRPass("");
+    if (specialRg.test(val)) {
+      if (!isPassSpecialOK) {
+        setIsPassSpecialOK(true);
+        setPass(val);
       }
-    }
+    } else setIsPassSpecialOK(false);
   }, 300);
 
   const signupEmailChange = debounce((e) => {
@@ -114,67 +120,72 @@ const Auth = (props) => {
     else setLoginPass("");
   });
 
-  const authClick = () => {
+  const signupHandler = () => {
     setIsLoading(true);
-    if (!isLogin) {
-      if (
-        isUserNameOK &&
-        isEmailOK &&
-        isPassSpecialOK &&
-        isPassUpperOK &&
-        isPassLengthOK &&
-        isPassNumberOK
-      ) {
-        signup(email, username, pass)
-          .then(() => {
-            setIsLoading(false);
+    if (
+      isUserNameOK &&
+      isEmailOK &&
+      isPassSpecialOK &&
+      isPassUpperOK &&
+      isPassLengthOK &&
+      isPassNumberOK
+    ) {
+      signup(email, username, pass)
+        .then(() => {
+          setIsLoading(false);
+          setTimeout(() => {
             history.push("/");
-          })
-          .catch((_err) => {
-            setIsLoading(false);
-            toast.error("مشکلی پیش آمد دوباره امتحان کنید", {
-              position: "bottom-right",
-              closeButton: true,
-              closeOnClick: true,
-              autoClose: 3000,
-            });
-            //todo handle error
+          }, 50);
+        })
+        .catch((_err) => {
+          setIsLoading(false);
+          toast.error("مشکلی پیش آمد دوباره امتحان کنید", {
+            position: "bottom-right",
+            closeButton: true,
+            closeOnClick: true,
+            autoClose: 3000,
           });
-      } else {
-        setIsLoading(false);
-        toast.warn("لطفا همه موارد ثبت نام را رعایت کنید", {
-          position: "bottom-right",
-          closeButton: true,
-          closeOnClick: true,
-          autoClose: 3000,
+          //todo handle error
         });
-      }
     } else {
-      if (loginUsernameOrEmail && loginPass) {
-        login(loginUsernameOrEmail, loginPass)
-          .then(() => {
-            setIsLoading(false);
+      setIsLoading(false);
+      toast.warn("لطفا همه موارد ثبت نام را رعایت کنید", {
+        position: "bottom-right",
+        closeButton: true,
+        closeOnClick: true,
+        autoClose: 3000,
+      });
+    }
+  };
+
+  const loginHandler = () => {
+    setIsLoading(true);
+    if (loginUsernameOrEmail && loginPass) {
+      login(loginUsernameOrEmail, loginPass)
+        .then(() => {
+          setIsLoading(false);
+          setTimeout(() => {
             history.push("/");
-          })
-          .catch((_err) => {
-            setIsLoading(false);
-            toast.error("مشکلی پیش آمد دوباره امتحان کنید", {
-              position: "bottom-right",
-              closeButton: true,
-              closeOnClick: true,
-              autoClose: 3000,
-            });
-            //todo handle error
+          }, 50);
+        })
+        .catch((_err) => {
+          setIsLoading(false);
+          toast.error("مشکلی پیش آمد دوباره امتحان کنید", {
+            position: "bottom-right",
+            closeButton: true,
+            closeOnClick: true,
+            autoClose: 3000,
           });
-      } else {
-        setIsLoading(false);
-        toast.warn("لطفا نام کاربری و پسورد درستی وارد کنید", {
-          position: "bottom-right",
-          closeButton: true,
-          closeOnClick: true,
-          autoClose: 3000,
+          //todo handle error
         });
-      }
+    } else {
+      setIsLoading(false);
+      toast.warn("لطفا نام کاربری و پسورد درستی وارد کنید", {
+        position: "bottom-right",
+        closeButton: true,
+        closeOnClick: true,
+        autoClose: 3000,
+      });
     }
   };
 
@@ -263,7 +274,7 @@ const Auth = (props) => {
               <li className={`${isEmailOK ? "done" : ""}`}>ایمیل صحیح</li>
             </ul>
             <div className="auth-btns">
-              <button className="submit" type="submit" onClick={authClick}>
+              <button className="submit" type="submit" onClick={signupHandler}>
                 !تمام
               </button>
               <div className="google">
@@ -299,7 +310,7 @@ const Auth = (props) => {
             </div>
 
             <div className="auth-btns">
-              <button className="submit" type="submit" onClick={authClick}>
+              <button className="submit" type="submit" onClick={loginHandler}>
                 !تمام
               </button>
               <div className="google">

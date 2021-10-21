@@ -68,7 +68,7 @@ const App = () => {
         <Route path="/auth" exact component={Auth} />
         <Route path="/logout" exact component={Auth} />
         <Route path="/new-product" exact component={AddProduct} />
-        <Route path="/" component={Home} />
+        <Route path="/" exact component={Home} />
       </Switch>
     </>
   );
