@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
-import { toast } from "react-toastify";
 import "./AddImage.scss";
+import { toastWarn } from "../../../../utils/ToastUtil";
 
 const AddImage = (props) => {
   const inputElement = useRef(null);
@@ -10,6 +10,7 @@ const AddImage = (props) => {
     const validExtensions = ["image/jpeg", "image/jpg", "image/png"];
     if (file) {
       if (validExtensions.includes(file.type)) {
+        props.imageUrls.push(file);
         let fr = new FileReader();
         fr.onload = () => {
           const fileURL = fr.result;
@@ -17,15 +18,9 @@ const AddImage = (props) => {
         };
         fr.readAsDataURL(file);
       } else {
-        console.log(Boolean(file));
-        toast.warn(
+        toastWarn(
           "فایل درست نیست باید به این فرمت ها باشد\n" +
-            validExtensions.join(" ").split("image/").join(" "),
-          {
-            autoClose: 2000,
-            closeButton: true,
-            closeOnClick: true,
-          }
+            validExtensions.join(" ").split("image/").join(" ")
         );
       }
     }

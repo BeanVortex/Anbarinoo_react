@@ -7,8 +7,10 @@ import backVideo from "../../resources/video/login.mp4";
 import debounce from "debounce";
 import "./Auth.scss";
 import { AuthContext } from "../../context/AuthContext";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+
 import Load from "../../components/load/Load";
+import { toastError, toastWarn } from "../../utils/ToastUtil";
 
 const Auth = (props) => {
   const { signup, login, logout, isAuthed } = useContext(AuthContext);
@@ -139,22 +141,12 @@ const Auth = (props) => {
         })
         .catch((_err) => {
           setIsLoading(false);
-          toast.error("مشکلی پیش آمد دوباره امتحان کنید", {
-            position: "bottom-right",
-            closeButton: true,
-            closeOnClick: true,
-            autoClose: 3000,
-          });
+          toastError("مشکلی پیش آمد دوباره امتحان کنید");
           //todo handle error
         });
     } else {
       setIsLoading(false);
-      toast.warn("لطفا همه موارد ثبت نام را رعایت کنید", {
-        position: "bottom-right",
-        closeButton: true,
-        closeOnClick: true,
-        autoClose: 3000,
-      });
+      toastWarn("لطفا همه موارد ثبت نام را رعایت کنید");
     }
   };
 
@@ -170,22 +162,12 @@ const Auth = (props) => {
         })
         .catch((_err) => {
           setIsLoading(false);
-          toast.error("مشکلی پیش آمد دوباره امتحان کنید", {
-            position: "bottom-right",
-            closeButton: true,
-            closeOnClick: true,
-            autoClose: 3000,
-          });
+          toastError("مشکلی پیش آمد دوباره امتحان کنید");
           //todo handle error
         });
     } else {
       setIsLoading(false);
-      toast.warn("لطفا نام کاربری و پسورد درستی وارد کنید", {
-        position: "bottom-right",
-        closeButton: true,
-        closeOnClick: true,
-        autoClose: 3000,
-      });
+      toastWarn("لطفا نام کاربری و پسورد درستی وارد کنید");
     }
   };
 

@@ -10,6 +10,7 @@
     padding: 0.5rem;
     overflow-x: auto;
     white-space: nowrap;
+    scroll-snap-type: x mandatory;
 
     &::-webkit-scrollbar {
       height: 8px;

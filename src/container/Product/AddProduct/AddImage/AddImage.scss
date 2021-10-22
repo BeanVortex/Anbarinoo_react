@@ -9,6 +9,7 @@
   background: $gray;
   cursor: pointer;
   overflow: hidden;
+  scroll-snap-align: end;
   @include borderRadius();
   img {
     width: 50px;
