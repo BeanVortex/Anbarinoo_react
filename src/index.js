@@ -5,6 +5,8 @@ import { BrowserRouter } from "react-router-dom";
 import AuthProvider from "./context/AuthContext";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import {
   isAuthenticated,
   requestHeader,
