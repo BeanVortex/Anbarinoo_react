@@ -1,4 +1,5 @@
 @import "../../../styles/styles.scss";
+
 .add-product {
   display: flex;
   flex-direction: column;
@@ -26,7 +27,6 @@
       cursor: pointer;
     }
   }
-
   &-content {
     @include containerWidth();
     margin-top: 2rem;

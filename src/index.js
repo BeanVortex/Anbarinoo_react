@@ -2,10 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./container/App";
 import { BrowserRouter } from "react-router-dom";
-import AuthProvider from "./context/AuthContext";
+import AuthConsumer from "./context/AuthContext";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 import {
   isAuthenticated,
@@ -52,10 +51,10 @@ axios.interceptors.response.use(
 );
 
 ReactDOM.render(
-  <AuthProvider>
+  <AuthConsumer>
     <BrowserRouter>
       <App />
     </BrowserRouter>
-  </AuthProvider>,
+  </AuthConsumer>,
   document.getElementById("root")
 );

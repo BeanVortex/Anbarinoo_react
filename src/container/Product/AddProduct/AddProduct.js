@@ -4,7 +4,7 @@ import image from "../../../resources/vectors/Image.svg";
 import "./AddProduct.scss";
 import { ToastContainer } from "react-toastify";
 import { Button, Dropdown, Form, InputGroup } from "react-bootstrap";
-
+import AddCategory from "./AddCategory/AddCategory";
 const AddProduct = () => {
   let imageUrls = [];
   let images = Array.apply(null, Array(5)).map((_x, i) => {
@@ -19,7 +19,7 @@ const AddProduct = () => {
           <Form.Group className="d-flex flex-row-reverse">
             <Form.Control
               type="text"
-              className="text-end ms-4 w-50"
+              className="text-end ms-1 w-50"
               placeholder="نام محصول"
             />
             <Form.Control
@@ -30,7 +30,7 @@ const AddProduct = () => {
           </Form.Group>
 
           <Form.Group className="d-flex flex-row-reverse mt-3">
-            <InputGroup className="ms-4 w-50">
+            <InputGroup className="ms-1 w-50">
               <InputGroup.Text id="currency_id">تومان</InputGroup.Text>
               <Form.Control
                 type="number"
@@ -53,14 +53,16 @@ const AddProduct = () => {
 
           <Form.Group className="d-flex justify-content-center flex-row-reverse mt-3">
             <Form.Control
-              className="text-end"
+              className="text-end mw-100"
+              style={{resize: "vertical"}}
+              rows="5"
               as="textarea"
               placeholder="توضیحات"
             />
           </Form.Group>
 
           <Form.Group className="d-flex justify-content-center flex-row-reverse mt-3">
-            <Dropdown className="ms-2">
+            <Dropdown className="ms-1">
               <Dropdown.Toggle variant="light" id="dropdown-basic">
                 انتخاب دسته{" "}
               </Dropdown.Toggle>
@@ -82,6 +84,8 @@ const AddProduct = () => {
             </Button>
           </Form.Group>
         </Form>
+
+        <AddCategory/>
       </div>
       <ToastContainer />
     </div>

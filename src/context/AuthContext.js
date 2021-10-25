@@ -20,7 +20,18 @@ const userInfoInitial = {
 };
 const isAuthedInitial = false;
 
-export const AuthContext = createContext();
+export const AuthContext = createContext({
+  userAuth: userAuthInitial,
+  setUserAuth: () => {},
+  userInfo: userInfoInitial,
+  setUserInfo: () => {},
+  login: () => {},
+  signup: () => {},
+  logout: () => {},
+  mapAuthToContext: () => {},
+  isAuthed: isAuthedInitial,
+  setIsAuthed: () => {},
+});
 
 const saveHeaders = (res) => {
   setLocalStorage("refresh_token", res.headers.refresh_token);

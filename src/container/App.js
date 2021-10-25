@@ -7,11 +7,12 @@ import {
   isTokenExpired as isLocalTokenExpired,
 } from "../utils/AuthUtil";
 import Auth from "./Auth/Auth";
-import "./App.scss";
 import axios from "axios";
 import { BaseUrl } from "../index";
 import AddProduct from "./Product/AddProduct/AddProduct";
 import Nav from "../components/nav/Nav";
+import "./App.scss";
+import "bootstrap/dist/css/bootstrap-utilities.min.css";
 
 const App = () => {
   const {
@@ -57,7 +58,7 @@ const App = () => {
             })
             .catch(() => logoutAndDeleteData());
         } else logoutAndDeleteData();
-      }else logoutAndDeleteData();
+      } else logoutAndDeleteData();
     }
   }, [history, isAuthed, logout, setIsAuthed, setUserInfo, userInfo]);
 
