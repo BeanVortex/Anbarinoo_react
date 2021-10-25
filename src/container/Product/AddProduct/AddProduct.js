@@ -10,7 +10,7 @@ import {
   getCategoryByUserIdUrl,
   saveProductUrl,
 } from "../../../resources/ApiUrls";
-import { toastSuccess, toastWarn } from "../../../utils/ToastUtil";
+import { toastError, toastSuccess, toastWarn } from "../../../utils/ToastUtil";
 
 const AddProduct = () => {
   const [categories, setCategories] = useState([]);
@@ -53,22 +53,11 @@ const AddProduct = () => {
     data.append("description", descriptionInput.current.value);
     data.append("totalCount", countInput.current.value);
     data.append("category", selectedCatId);
-    let fileSize = 0;
-    
-    for (const key of imageUrls.current) {
-      data.append("files", key);
-      const singleFileSize =
-        Math.round((key.size * 100) / Math.pow(10, 6)) / 100;
-      fileSize += singleFileSize;
-      if (singleFileSize > 1) {
-        toastWarn("اندازه هر فایل نباید بیشتر از ۱ مگابایت باشد");
-        return;
-      }
-    }
 
-    if (fileSize > 5) {
-      toastWarn("اندازه تمام فایل ها نباید بیشتر از ۵ مگابایت باشند");
-      return;
+    for (const key of imageUrls.current) {
+      // const singleFileSize =
+      //   Math.round((key.size * 100) / Math.pow(10, 6)) / 100;
+      data.append("files", key);
     }
 
     for (const entry of data.entries()) {
@@ -85,9 +74,13 @@ const AddProduct = () => {
       headers: {
         "Content-Type": "multipart/form-data",
       },
-    }).then(() => {
-      toastSuccess("با موفقیت سیو شد");
-    });
+    })
+      .then(() => {
+        toastSuccess("با موفقیت سیو شد");
+      })
+      .catch((err) => {
+        toastError(" مشکلی پیش آمد" + err);
+      });
   };
 
   return (

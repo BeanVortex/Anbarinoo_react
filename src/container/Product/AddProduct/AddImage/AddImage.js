@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import "./AddImage.scss";
 import { toastWarn } from "../../../../utils/ToastUtil";
+import Compressor from "compressorjs";
 
 const AddImage = (props) => {
   const inputElement = useRef(null);
@@ -10,13 +11,18 @@ const AddImage = (props) => {
     const validExtensions = ["image/jpeg", "image/jpg", "image/png"];
     if (file) {
       if (validExtensions.includes(file.type)) {
-        props.imageUrls.current[props.index] = file;
-        let fr = new FileReader();
-        fr.onload = () => {
-          const fileURL = fr.result;
-          setImageState({ url: fileURL, isBig: true });
-        };
-        fr.readAsDataURL(file);
+        new Compressor(file, {
+          mimeType: "image/jpeg",
+          success: (compressedFile) => {
+            props.imageUrls.current[props.index] = compressedFile;
+            let fr = new FileReader();
+            fr.onload = () => {
+              const fileURL = fr.result;
+              setImageState({ url: fileURL, isBig: true });
+            };
+            fr.readAsDataURL(compressedFile);
+          },
+        });
       } else {
         toastWarn(
           "فایل درست نیست باید به این فرمت ها باشد\n" +
