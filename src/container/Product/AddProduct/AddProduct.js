@@ -6,15 +6,13 @@ import { ToastContainer } from "react-toastify";
 import { Button, Form, InputGroup } from "react-bootstrap";
 import AddCategoryModal from "./AddCategory/AddCategoryModal";
 import axios from "axios";
-import {
-  getByUser_CategoryUrl,
-  save_ProductUrl,
-} from "../../../utils/ApiUrls";
+import { getByUser_CategoryUrl, save_ProductUrl } from "../../../utils/ApiUrls";
 import { toastError, toastSuccess, toastWarn } from "../../../utils/ToastUtil";
 
 const AddProduct = () => {
   const [categories, setCategories] = useState([]);
   const [addCatShow, setAddCatShow] = useState(false);
+  const [isNewCatAdded, setIsNewCatAdded] = useState(false);
 
   const [selectedCatId, setSelectedCatId] = useState(null);
   const nameInput = useRef();
@@ -28,16 +26,19 @@ const AddProduct = () => {
   });
 
   useEffect(() => {
-    axios.get(getByUser_CategoryUrl).then((res) => {
-      setCategories(
-        res.data.map((cat) => (
-          <option key={cat.id} value={cat.id}>
-            {cat.name}
-          </option>
-        ))
-      );
-    });
-  }, []);
+    if (isNewCatAdded) {
+      axios.get(getByUser_CategoryUrl).then((res) => {
+        setCategories(
+          res.data.map((cat) => (
+            <option key={cat.id} value={cat.id}>
+              {cat.name}
+            </option>
+          ))
+        );
+        setIsNewCatAdded(false);
+      });
+    }
+  }, [isNewCatAdded]);
 
   const newCategoryHandler = () => setAddCatShow(true);
 
@@ -87,7 +88,7 @@ const AddProduct = () => {
     <div className="add-product">
       <div className="add-product-images">{images}</div>
       <div className="add-product-content">
-        <Form>
+        <Form onSubmit={(e) => e.preventDefault()}>
           <Form.Group className="d-flex flex-row-reverse p-1">
             <Form.Control
               type="text"
@@ -145,6 +146,7 @@ const AddProduct = () => {
 
           <Form.Group className="d-flex justify-content-center flex-row-reverse mt-5 mb-3">
             <Button
+              type="submit"
               variant="success"
               className="w-50"
               onClick={saveProductHandler}
@@ -153,8 +155,13 @@ const AddProduct = () => {
             </Button>
           </Form.Group>
         </Form>
-        {addCatShow ? <AddCategoryModal setAddCatShow={setAddCatShow} /> : null}
       </div>
+      {addCatShow ? (
+        <AddCategoryModal
+          setAddCatShow={setAddCatShow}
+          setIsNewCatAdded={setIsNewCatAdded}
+        />
+      ) : null}
       <ToastContainer />
     </div>
   );

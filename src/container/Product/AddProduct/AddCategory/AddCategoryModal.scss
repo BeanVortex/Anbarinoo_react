@@ -1,0 +1,62 @@
+@import "../../../../styles/styles.scss";
+.add-category {
+  position: fixed;
+  background: rgba(51, 51, 51, 0.6);
+  width: 100%;
+  height: 100vh;
+  @include transition();
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &-back {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 2;
+  }
+
+  &-container {
+    width: 30%;
+    background: white;
+    @include borderRadius();
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+  }
+
+  &-separator {
+    width: 100%;
+    height: 1px;
+    background: rgba(51, 51, 51, 0.3);
+  }
+
+  &-header {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 1rem;
+
+    button {
+      width: 24px;
+      height: 24px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      @include transition();
+      &:hover {
+        color: rgb(202, 42, 42);
+      }
+    }
+  }
+  &-body {
+    padding: 1rem;
+  }
+}
