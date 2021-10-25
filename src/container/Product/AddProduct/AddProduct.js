@@ -8,7 +8,7 @@ import AddCategoryModal from "./AddCategory/AddCategoryModal";
 import axios from "axios";
 import {
   getByUser_CategoryUrl,
-  saveProductUrl,
+  save_ProductUrl,
 } from "../../../utils/ApiUrls";
 import { toastError, toastSuccess, toastWarn } from "../../../utils/ToastUtil";
 
@@ -68,7 +68,7 @@ const AddProduct = () => {
     }
 
     axios({
-      url: saveProductUrl,
+      url: save_ProductUrl,
       method: "POST",
       data,
       headers: {
