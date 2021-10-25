@@ -7,9 +7,9 @@ import { Button, Form, InputGroup } from "react-bootstrap";
 import AddCategoryModal from "./AddCategory/AddCategoryModal";
 import axios from "axios";
 import {
-  getCategoryByUserIdUrl,
+  getByUser_CategoryUrl,
   saveProductUrl,
-} from "../../../resources/ApiUrls";
+} from "../../../utils/ApiUrls";
 import { toastError, toastSuccess, toastWarn } from "../../../utils/ToastUtil";
 
 const AddProduct = () => {
@@ -28,7 +28,7 @@ const AddProduct = () => {
   });
 
   useEffect(() => {
-    axios.get(getCategoryByUserIdUrl).then((res) => {
+    axios.get(getByUser_CategoryUrl).then((res) => {
       setCategories(
         res.data.map((cat) => (
           <option key={cat.id} value={cat.id}>
