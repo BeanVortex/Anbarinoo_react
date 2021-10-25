@@ -1,12 +1,12 @@
 /* eslint-disable import/no-anonymous-default-export */
 import React, { useState, createContext } from "react";
 import axios from "axios";
-import { BaseUrl } from "../index";
 import {
   clearLocalStorage,
   getAuthLocalData,
   setLocalStorage,
 } from "../utils/AuthUtil";
+import { loginUrl, signupUrl, baseUserProfileImageUrl } from "../resources/ApiUrls";
 
 const userAuthInitial = {
   accessToken: "",
@@ -14,6 +14,7 @@ const userAuthInitial = {
   refreshExpiration: null,
 };
 const userInfoInitial = {
+  id: null,
   username: "",
   profile: "",
   email: "",
@@ -46,7 +47,7 @@ export default (props) => {
 
   const login = async (username, password) => {
     let res = await axios
-      .post("/api/user/login/", {
+      .post(loginUrl, {
         username,
         password,
       })
@@ -59,8 +60,9 @@ export default (props) => {
         });
         setIsAuthed(true);
         setUserInfo({
+          id: res.data.id,
           username: res.data.userName,
-          profile: BaseUrl + "/user/profile_images/" + res.data.profileImage,
+          profile: baseUserProfileImageUrl + res.data.profileImage,
           email: res.data.email,
         });
       });
@@ -76,7 +78,7 @@ export default (props) => {
     data.append("passwordRepeat", password);
 
     let res = await axios({
-      url: "/api/user/signup/",
+      url: signupUrl,
       method: "POST",
       data: data,
     }).then((res) => {
@@ -90,7 +92,7 @@ export default (props) => {
       setIsAuthed(true);
       setUserInfo({
         username: res.data.userName,
-        profile: BaseUrl + "/user/profile_images/" + res.data.profileImage,
+        profile: baseUserProfileImageUrl + res.data.profileImage,
         email: res.data.email,
       });
     });

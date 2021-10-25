@@ -1,91 +1,166 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import AddImage from "./AddImage/AddImage";
 import image from "../../../resources/vectors/Image.svg";
 import "./AddProduct.scss";
 import { ToastContainer } from "react-toastify";
-import { Button, Dropdown, Form, InputGroup } from "react-bootstrap";
-import AddCategory from "./AddCategory/AddCategory";
+import { Button, Form, InputGroup } from "react-bootstrap";
+import AddCategoryModal from "./AddCategory/AddCategoryModal";
+import axios from "axios";
+import {
+  getCategoryByUserIdUrl,
+  saveProductUrl,
+} from "../../../resources/ApiUrls";
+import { toastSuccess, toastWarn } from "../../../utils/ToastUtil";
+
 const AddProduct = () => {
-  let imageUrls = [];
+  const [categories, setCategories] = useState([]);
+  const [addCatShow, setAddCatShow] = useState(false);
+
+  const [selectedCatId, setSelectedCatId] = useState(null);
+  const nameInput = useRef();
+  const buyPriceInput = useRef();
+  const countInput = useRef();
+  const descriptionInput = useRef();
+
+  const imageUrls = useRef([]);
   let images = Array.apply(null, Array(5)).map((_x, i) => {
     return <AddImage imageUrls={imageUrls} key={i} index={i} image={image} />;
   });
+
+  useEffect(() => {
+    axios.get(getCategoryByUserIdUrl).then((res) => {
+      setCategories(
+        res.data.map((cat) => (
+          <option key={cat.id} value={cat.id}>
+            {cat.name}
+          </option>
+        ))
+      );
+    });
+  }, []);
+
+  const newCategoryHandler = () => setAddCatShow(true);
+
+  const changeCatHandler = (e) => {
+    const catId = e.target.value;
+    setSelectedCatId(catId);
+  };
+
+  const saveProductHandler = () => {
+    const data = new FormData();
+    data.append("name", nameInput.current.value);
+    data.append("price", buyPriceInput.current.value);
+    data.append("description", descriptionInput.current.value);
+    data.append("totalCount", countInput.current.value);
+    data.append("category", selectedCatId);
+    let fileSize = 0;
+    
+    for (const key of imageUrls.current) {
+      data.append("files", key);
+      const singleFileSize =
+        Math.round((key.size * 100) / Math.pow(10, 6)) / 100;
+      fileSize += singleFileSize;
+      if (singleFileSize > 1) {
+        toastWarn("اندازه هر فایل نباید بیشتر از ۱ مگابایت باشد");
+        return;
+      }
+    }
+
+    if (fileSize > 5) {
+      toastWarn("اندازه تمام فایل ها نباید بیشتر از ۵ مگابایت باشند");
+      return;
+    }
+
+    for (const entry of data.entries()) {
+      if (!entry[1] || entry[1] === "null") {
+        toastWarn("تمام موارد را پر کنید");
+        return;
+      }
+    }
+
+    axios({
+      url: saveProductUrl,
+      method: "POST",
+      data,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }).then(() => {
+      toastSuccess("با موفقیت سیو شد");
+    });
+  };
 
   return (
     <div className="add-product">
       <div className="add-product-images">{images}</div>
       <div className="add-product-content">
         <Form>
-          <Form.Group className="d-flex flex-row-reverse">
+          <Form.Group className="d-flex flex-row-reverse p-1">
             <Form.Control
               type="text"
-              className="text-end ms-1 w-50"
+              className="text-end ms-4 w-50"
               placeholder="نام محصول"
+              ref={nameInput}
             />
             <Form.Control
               type="number"
               className="text-end w-50"
               placeholder="تعداد محصول "
+              ref={countInput}
             />
           </Form.Group>
 
-          <Form.Group className="d-flex flex-row-reverse mt-3">
-            <InputGroup className="ms-1 w-50">
+          <Form.Group className="d-flex flex-row-reverse mt-3 p-1">
+            <InputGroup className="ms-1 w-100 ">
               <InputGroup.Text id="currency_id">تومان</InputGroup.Text>
               <Form.Control
                 type="number"
-                className="text-end"
+                ref={buyPriceInput}
+                className="text-end "
                 placeholder="قیمت خرید"
                 aria-describedby="currency_id"
               />
             </InputGroup>
-
-            <InputGroup className="w-50">
-              <InputGroup.Text id="currency_id">تومان</InputGroup.Text>
-              <Form.Control
-                type="number"
-                className="text-end"
-                placeholder="قیمت فروش"
-                aria-describedby="currency_id"
-              />
-            </InputGroup>
           </Form.Group>
 
-          <Form.Group className="d-flex justify-content-center flex-row-reverse mt-3">
+          <Form.Group className="d-flex justify-content-center flex-row-reverse mt-3 p-1">
             <Form.Control
-              className="text-end mw-100"
-              style={{resize: "vertical"}}
+              ref={descriptionInput}
+              className="text-end mw-100 "
+              style={{ resize: "vertical" }}
               rows="5"
               as="textarea"
               placeholder="توضیحات"
             />
           </Form.Group>
 
-          <Form.Group className="d-flex justify-content-center flex-row-reverse mt-3">
-            <Dropdown className="ms-1">
-              <Dropdown.Toggle variant="light" id="dropdown-basic">
-                انتخاب دسته{" "}
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu>
-                {/* todo render by server data */}
-                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-
-            <Button variant="secondary">دسته جدید</Button>
+          <Form.Group className="d-flex justify-content-center flex-row-reverse mt-3 p-1">
+            <select
+              value={selectedCatId ? selectedCatId : "انتخاب دسته"}
+              onChange={changeCatHandler}
+              className="form-select form-select-sm text-end w-50 ms-4"
+            >
+              <option disabled value="انتخاب دسته">
+                انتخاب دسته
+              </option>
+              {categories}
+            </select>
+            <Button variant="secondary" onClick={newCategoryHandler}>
+              دسته جدید
+            </Button>
           </Form.Group>
 
           <Form.Group className="d-flex justify-content-center flex-row-reverse mt-5 mb-3">
-            <Button variant="success" className="w-50">
+            <Button
+              variant="success"
+              className="w-50"
+              onClick={saveProductHandler}
+            >
               ذخیره
             </Button>
           </Form.Group>
         </Form>
-
-        <AddCategory/>
+        {addCatShow ? <AddCategoryModal setAddCatShow={setAddCatShow} /> : null}
       </div>
       <ToastContainer />
     </div>

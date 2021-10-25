@@ -17,3 +17,12 @@ export const toastWarn = (desc) => {
     autoClose: 3000,
   });
 };
+
+export const toastSuccess = (desc) => {
+  toast.success(desc, {
+    position: "bottom-right",
+    closeButton: true,
+    closeOnClick: true,
+    autoClose: 3000,
+  });
+};

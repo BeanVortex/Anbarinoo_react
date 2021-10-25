@@ -8,11 +8,11 @@ import {
 } from "../utils/AuthUtil";
 import Auth from "./Auth/Auth";
 import axios from "axios";
-import { BaseUrl } from "../index";
 import AddProduct from "./Product/AddProduct/AddProduct";
 import Nav from "../components/nav/Nav";
 import "./App.scss";
 import "bootstrap/dist/css/bootstrap-utilities.min.css";
+import { getUserInfoUrl, baseUserProfileImageUrl } from "../resources/ApiUrls";
 
 const App = () => {
   const {
@@ -46,12 +46,11 @@ const App = () => {
       if (isAuthenticatedInLocal()) {
         if (!isLocalTokenExpired()) {
           axios
-            .get("/api/user/info/")
+            .get(getUserInfoUrl)
             .then((res) => {
               setUserInfo({
                 username: res.data.userName,
-                profile:
-                  BaseUrl + "/user/profile_images/" + res.data.profileImage,
+                profile: baseUserProfileImageUrl + res.data.profileImage,
                 email: res.data.email,
               });
               setIsAuthed(true);

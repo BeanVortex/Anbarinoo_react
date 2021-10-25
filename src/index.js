@@ -5,16 +5,14 @@ import { BrowserRouter } from "react-router-dom";
 import AuthConsumer from "./context/AuthContext";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
-
+import { baseUrl } from "./resources/ApiUrls";
 import {
   isAuthenticated,
   requestHeader,
   setLocalStorage,
 } from "./utils/AuthUtil";
 
-export const BaseUrl = "http://localhost:8080";
-
-axios.defaults.baseURL = BaseUrl;
+axios.defaults.baseURL = baseUrl;
 
 axios.interceptors.request.use(
   (request) => {
@@ -33,7 +31,6 @@ axios.interceptors.request.use(
   }
 );
 
-
 axios.interceptors.response.use(
   (response) => {
     let accessToken = response.headers.access_token;
@@ -45,6 +42,11 @@ axios.interceptors.response.use(
     return response;
   },
   (error) => {
+    let accessToken = error.response.headers.access_token;
+    let refreshToken = error.response.headers.refresh_token;
+    if (accessToken) setLocalStorage("access_token", accessToken);
+    if (refreshToken) setLocalStorage("access_token", refreshToken);
+
     console.log("[RES](ERR): ", error.response);
     return Promise.reject(error.response);
   }

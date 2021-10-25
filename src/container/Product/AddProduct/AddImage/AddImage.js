@@ -10,7 +10,7 @@ const AddImage = (props) => {
     const validExtensions = ["image/jpeg", "image/jpg", "image/png"];
     if (file) {
       if (validExtensions.includes(file.type)) {
-        props.imageUrls.push(file);
+        props.imageUrls.current[props.index] = file;
         let fr = new FileReader();
         fr.onload = () => {
           const fileURL = fr.result;
