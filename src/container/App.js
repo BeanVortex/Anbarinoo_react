@@ -12,7 +12,7 @@ import AddProduct from "./Product/AddProduct/AddProduct";
 import Nav from "../components/nav/Nav";
 import "./App.scss";
 import "bootstrap/dist/css/bootstrap-utilities.min.css";
-import { getUserInfoUrl, baseUserProfileImageUrl } from "../resources/ApiUrls";
+import { getUserInfoUrl, baseUserProfileImageUrl } from "../utils/ApiUrls";
 
 const App = () => {
   const {

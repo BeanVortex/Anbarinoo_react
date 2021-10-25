@@ -5,7 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import AuthConsumer from "./context/AuthContext";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
-import { baseUrl } from "./resources/ApiUrls";
+import { baseUrl } from "./utils/ApiUrls";
 import {
   isAuthenticated,
   requestHeader,

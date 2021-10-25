@@ -6,7 +6,7 @@ import {
   getAuthLocalData,
   setLocalStorage,
 } from "../utils/AuthUtil";
-import { loginUrl, signupUrl, baseUserProfileImageUrl } from "../resources/ApiUrls";
+import { loginUrl, signupUrl, baseUserProfileImageUrl } from "../utils/ApiUrls";
 
 const userAuthInitial = {
   accessToken: "",
