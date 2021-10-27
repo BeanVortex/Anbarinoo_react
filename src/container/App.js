@@ -1,5 +1,6 @@
 import React, { useEffect, useContext } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
+import Helmet from "react-helmet";
 import Home from "./Home/Home";
 import { AuthContext } from "../context/AuthContext";
 import {
@@ -63,6 +64,9 @@ const App = () => {
 
   return (
     <>
+    <Helmet>
+      <title>انبارینو</title>
+    </Helmet>
       {isAuthed ? <Nav /> : null}
       <Switch>
         <Route path="/auth" exact component={Auth} />

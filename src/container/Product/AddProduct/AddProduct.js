@@ -8,6 +8,7 @@ import AddCategoryModal from "./AddCategory/AddCategoryModal";
 import axios from "axios";
 import { getByUser_CategoryUrl, save_ProductUrl } from "../../../utils/ApiUrls";
 import { toastError, toastSuccess, toastWarn } from "../../../utils/ToastUtil";
+import Helmet from "react-helmet";
 
 const AddProduct = () => {
   const [categories, setCategories] = useState([]);
@@ -26,18 +27,15 @@ const AddProduct = () => {
   });
 
   useEffect(() => {
-    if (isNewCatAdded) {
-      axios.get(getByUser_CategoryUrl).then((res) => {
-        setCategories(
-          res.data.map((cat) => (
-            <option key={cat.id} value={cat.id}>
-              {cat.name}
-            </option>
-          ))
-        );
-        setIsNewCatAdded(false);
-      });
-    }
+    axios.get(getByUser_CategoryUrl).then((res) => {
+      setCategories(
+        res.data.map((cat) => (
+          <option key={cat.id} value={cat.id}>
+            {cat.name}
+          </option>
+        ))
+      );
+    });
   }, [isNewCatAdded]);
 
   const newCategoryHandler = () => setAddCatShow(true);
@@ -86,6 +84,9 @@ const AddProduct = () => {
 
   return (
     <div className="add-product">
+      <Helmet>
+        <title>محصول جدید</title>
+      </Helmet>
       <div className="add-product-images">{images}</div>
       <div className="add-product-content">
         <Form onSubmit={(e) => e.preventDefault()}>

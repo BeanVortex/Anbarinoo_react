@@ -3,6 +3,7 @@ import { debounce } from "debounce";
 import React, { Fragment, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { save_CategoryUrl } from "../../../../utils/ApiUrls";
+import Helmet from "react-helmet";
 import {
   toastError,
   toastSuccess,
@@ -34,9 +35,11 @@ const AddCategoryModal = (props) => {
 
   return (
     <Fragment>
+      <Helmet>
+        <title>دسته جدید</title>
+      </Helmet>
       <div className="add-category">
         <div className="add-category-back" onClick={closeModal}></div>
-
         <div className="add-category-container">
           <div className="add-category-header">
             <p className="me-4">دسته جدید</p>

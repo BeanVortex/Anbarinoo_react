@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import Helmet from "react-helmet";
 import backVideo from "../../resources/video/login.mp4";
 import "./Auth.scss";
 import { AuthContext } from "../../context/AuthContext";
@@ -35,6 +36,9 @@ const Auth = (props) => {
 
   return (
     <div className="auth-container">
+      <Helmet>
+        <title>ورود / ثبت نام</title>
+      </Helmet>
       {isLoading ? <Load type="ball-grid-pulse" /> : null}
       <div className="title">
         <h1>

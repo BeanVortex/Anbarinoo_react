@@ -65,6 +65,10 @@ export default (props) => {
           profile: baseUserProfileImageUrl + res.data.profileImage,
           email: res.data.email,
         });
+        return Promise.resolve(res);
+      })
+      .catch((err) => {
+        return Promise.reject(err);
       });
     return res;
     //catching error in auth component
@@ -81,21 +85,26 @@ export default (props) => {
       url: signupUrl,
       method: "POST",
       data: data,
-    }).then((res) => {
-      saveHeaders(res);
-      setUserAuth({
-        accessToken: res.headers.access_token,
-        refreshToken: res.headers.refresh_token,
-        authenticated: true,
-        refreshExpiration: res.headers.refresh_expiration,
+    })
+      .then((res) => {
+        saveHeaders(res);
+        setUserAuth({
+          accessToken: res.headers.access_token,
+          refreshToken: res.headers.refresh_token,
+          authenticated: true,
+          refreshExpiration: res.headers.refresh_expiration,
+        });
+        setIsAuthed(true);
+        setUserInfo({
+          username: res.data.userName,
+          profile: baseUserProfileImageUrl + res.data.profileImage,
+          email: res.data.email,
+        });
+        return Promise.resolve(res);
+      })
+      .catch((err) => {
+        return Promise.reject(err);
       });
-      setIsAuthed(true);
-      setUserInfo({
-        username: res.data.userName,
-        profile: baseUserProfileImageUrl + res.data.profileImage,
-        email: res.data.email,
-      });
-    });
     return res;
     //catching error in auth component
   };

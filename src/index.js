@@ -23,7 +23,7 @@ axios.interceptors.request.use(
       }
     }
     console.log("[REQ]: ", request);
-    return request;
+    return Promise.resolve(request);
   },
   (error) => {
     console.log("[REQ](ERR): ", error.response);
@@ -39,7 +39,7 @@ axios.interceptors.response.use(
     if (refreshToken) setLocalStorage("access_token", refreshToken);
 
     console.log("[RES]: ", response);
-    return response;
+    return Promise.resolve(response);
   },
   (error) => {
     let accessToken = error.response.headers.access_token;
