@@ -25,6 +25,7 @@ const App = () => {
     setIsAuthed,
   } = useContext(AuthContext);
 
+
   const history = useHistory();
 
   useEffect(() => {

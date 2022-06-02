@@ -29,7 +29,7 @@ const AddProduct = () => {
   useEffect(() => {
     axios.get(getByUser_CategoryUrl).then((res) => {
       setCategories(
-        res.data.map((cat) => (
+        res.data.categories.map((cat) => (
           <option key={cat.id} value={cat.id}>
             {cat.name}
           </option>
@@ -75,7 +75,7 @@ const AddProduct = () => {
       },
     })
       .then(() => {
-        toastSuccess("با موفقیت سیو شد");
+        toastSuccess("با موفقیت ذخیره شد");
       })
       .catch((err) => {
         toastError(" مشکلی پیش آمد" + err);

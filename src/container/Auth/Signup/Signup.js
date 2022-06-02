@@ -19,6 +19,7 @@ const Signup = ({ isLogin, setIsLoading, signup }) => {
   const [isPassSpecialOK, setIsPassSpecialOK] = useState(false);
   const [isPassNumberOK, setIsPassNumberOK] = useState(false);
   const [isPassUpperOK, setIsPassUpperOK] = useState(false);
+  const [isPassLowerOK, setIsPassLowerOK] = useState(false);
   const [isSignupPassVisible, setIsSignupPassVisible] = useState(false);
 
   const signupTogglePassShow = () => {
@@ -33,6 +34,7 @@ const Signup = ({ isLogin, setIsLoading, signup }) => {
       isEmailOK &&
       isPassSpecialOK &&
       isPassUpperOK &&
+      isPassLowerOK &&
       isPassLengthOK &&
       isPassNumberOK
     ) {
@@ -82,6 +84,14 @@ const Signup = ({ isLogin, setIsLoading, signup }) => {
         setPass(val);
       }
     } else setIsPassUpperOK(false);
+
+    const lowercaseRg = /[a-z]/;
+    if (lowercaseRg.test(val)) {
+      if (!isPassLowerOK) {
+        setIsPassLowerOK(true);
+        setPass(val);
+      }
+    } else setIsPassLowerOK(false);
 
     const numRg = /[0-9]/;
     if (numRg.test(val)) {
@@ -148,6 +158,9 @@ const Signup = ({ isLogin, setIsLoading, signup }) => {
             </li>
             <li className={`${isPassUpperOK ? "done" : ""}`}>
               رمز عبور دارای حداقل یک کاراکتر بزرگ انگلیسی
+            </li>
+            <li className={`${isPassLowerOK ? "done" : ""}`}>
+              رمز عبور دارای حداقل یک کاراکتر کوچک انگلیسی
             </li>
             <li className={`${isPassNumberOK ? "done" : ""}`}>
               رمز عبور دارای حداقل یک عدد

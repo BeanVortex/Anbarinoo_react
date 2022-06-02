@@ -74,24 +74,24 @@ export default (props) => {
     //catching error in auth component
   };
 
-  const signup = async (email, username, password) => {
+  const signup = (email, username, password) => {
     const data = new FormData();
     data.append("email", email);
     data.append("userName", username);
     data.append("password", password);
     data.append("passwordRepeat", password);
 
-    let res = await axios({
+    let res = axios({
       url: signupUrl,
       method: "POST",
       data: data,
     })
       .then((res) => {
-        saveHeaders(res);
+        saveHeaders(res)
         setUserAuth({
           accessToken: res.headers.access_token,
           refreshToken: res.headers.refresh_token,
-          authenticated: true,
+          // authenticated: true,
           refreshExpiration: res.headers.refresh_expiration,
         });
         setIsAuthed(true);
